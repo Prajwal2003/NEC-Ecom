@@ -1,0 +1,41 @@
+{
+    "profile": {
+      "name": "John Doe",
+      "email": "johndoe@example.com",
+      "phone": "9876543210",
+      "avatar": "/images/avatar.png"
+    },
+    "orders": [
+      {
+        "id": "ORD123456",
+        "date": "2025-03-15",
+        "total": 1299,
+        "status": "Delivered",
+        "items": [
+          {
+            "name": "Wireless Headphones",
+            "image": "/images/headphones.jpg",
+            "price": 999
+          },
+          {
+            "name": "Phone Case",
+            "image": "/images/phone-case.jpg",
+            "price": 300
+          }
+        ]
+      }
+    ],
+    "addresses": [
+      {
+        "id": 1,
+        "title": "Home",
+        "address": "123 Main Street, City, State, 560001"
+      },
+      {
+        "id": 2,
+        "title": "Work",
+        "address": "Tech Park, Block B, Office 210, City, 560002"
+      }
+    ]
+  }
+  

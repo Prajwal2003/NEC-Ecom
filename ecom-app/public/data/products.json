@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Apple iPhone 15 Pro Max",
+    "category": "Electronics",
+    "brand": "Apple",
+    "price": 149999,
+    "rating": 4.8,
+    "image": "/images/products/iphone-15-pro-max.jpg",
+    "description": "Experience cutting-edge technology with the Apple iPhone 15 Pro Max. Featuring a titanium body, A17 Bionic chip, and the best camera system yet. Elevate your smartphone experience."
+  },
+  {
+    "id": 2,
+    "name": "Sony WH-1000XM5 Noise Cancelling Headphones",
+    "category": "Electronics",
+    "brand": "Sony",
+    "price": 29999,
+    "rating": 4.7,
+    "image": "/images/products/sony.png",
+    "description": "Immerse yourself in superior sound with the Sony WH-1000XM5. Industry-leading noise cancellation, crystal-clear call quality, and 30-hour battery life for an unparalleled audio experience."
+  },
+  {
+    "id": 3,
+    "name": "Nike Air Jordan 1 Retro High OG Shoes",
+    "category": "Fashion",
+    "brand": "Nike",
+    "price": 17999,
+    "rating": 4.9,
+    "image": "/images/products/nike-airmax.jpg",
+    "description": "The legendary Nike Air Jordan 1 Retro High OG combines heritage style with modern comfort. Iconic design, premium materials, and unmatched sneaker culture status."
+  },
+  {
+    "id": 4,
+    "name": "Samsung 65-inch 4K QLED Smart TV",
+    "category": "Electronics",
+    "brand": "Samsung",
+    "price": 129999,
+    "rating": 4.6,
+    "image": "/images/products/samsung-tv.jpg",
+    "description": "Upgrade your home entertainment with Samsung’s 65-inch 4K QLED TV. Vivid colors, deep contrast, and smart features for an immersive cinematic experience."
+  },
+  {
+    "id": 5,
+    "name": "Adidas Ultraboost 23 Running Shoes",
+    "category": "Fashion",
+    "brand": "Adidas",
+    "price": 12999,
+    "rating": 4.7,
+    "image": "/images/products/adidas.png",
+    "description": "Step into comfort and performance with the Adidas Ultraboost 23. Energy-returning cushioning and Primeknit upper for the perfect running experience."
+  },
+  {
+    "id": 6,
+    "name": "Apple MacBook Air M2",
+    "category": "Electronics",
+    "brand": "Apple",
+    "price": 114999,
+    "rating": 4.8,
+    "image": "/images/products/macbook-m2-air.png",
+    "description": "The new Apple MacBook Air M2 delivers powerful performance in an ultra-thin design. Enjoy an all-day battery, stunning Retina display, and silent fanless operation."
+  },
+  {
+    "id": 7,
+    "name": "Fitbit Charge 5 Advanced Fitness Tracker",
+    "category": "Health & Wellness",
+    "brand": "Fitbit",
+    "price": 14999,
+    "rating": 4.6,
+    "image": "/images/products/fitbit.png",
+    "description": "Track your health with the Fitbit Charge 5. Heart rate monitoring, sleep tracking, built-in GPS, and stress management tools to improve your well-being."
+  },
+  {
+    "id": 8,
+    "name": "The Lean Startup - Eric Ries",
+    "category": "Books",
+    "brand": "Penguin",
+    "price": 599,
+    "rating": 4.5,
+    "image": "/images/products/leanstartup.png",
+    "description": "A must-read for entrepreneurs! The Lean Startup teaches innovative business strategies to create successful startups with a scientific approach."
+  },
+  {
+    "id": 9,
+    "name": "Samsung Galaxy Watch 6 Classic",
+    "category": "Electronics",
+    "brand": "Samsung",
+    "price": 34999,
+    "rating": 4.7,
+    "image": "/images/products/galaxy-6.png",
+    "description": "Stay connected with the Samsung Galaxy Watch 6 Classic. Advanced health tracking, long battery life, and a premium rotating bezel for an intuitive experience."
+  },
+  {
+    "id": 10,
+    "name": "Instant Pot Duo 7-in-1 Electric Pressure Cooker",
+    "category": "Home & Furniture",
+    "brand": "Instant Pot",
+    "price": 7999,
+    "rating": 4.8,
+    "image": "/images/products/instant-pot-duo.png",
+    "description": "Cook faster and healthier with the Instant Pot Duo 7-in-1. Enjoy effortless cooking with pre-programmed settings for soups, rice, meats, and more."
+  }
+]
