@@ -15,11 +15,14 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [carts, setCarts] = useState({});
   const [newCartName, setNewCartName] = useState("");
   const [selectedCarts, setSelectedCarts] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const storedCarts = JSON.parse(localStorage.getItem("carts")) || {};
@@ -79,6 +82,42 @@ const Cart = () => {
     );
   };
 
+  const handleMultiCartCheckout = () => {
+    const selectedData = selectedCarts.map((name) => {
+      const items = carts[name];
+      const { totalItems, totalPrice } = calculateSummary(items);
+      return {
+        name,
+        items,
+        summary: { totalItems, totalPrice },
+      };
+    });
+
+    navigate("/checkout", {
+      state: {
+        selectedCarts: selectedData,
+      },
+    });
+  };
+
+  const handleSingleCartCheckout = (cartName) => {
+    const items = carts[cartName];
+    if (items.length === 0) return;
+
+    const { totalItems, totalPrice } = calculateSummary(items);
+    navigate("/checkout", {
+      state: {
+        selectedCarts: [
+          {
+            name: cartName,
+            items,
+            summary: { totalItems, totalPrice },
+          },
+        ],
+      },
+    });
+  };
+
   return (
     <Box sx={{ padding: { xs: 2, md: 4 }, width: "100vw", minHeight: "100vh" }}>
       <Typography variant="h5" fontWeight="bold">
@@ -110,9 +149,7 @@ const Cart = () => {
           color="success"
           sx={{ mb: 3 }}
           disabled={selectedCarts.length === 0}
-          onClick={() =>
-            alert(`Checking out: ${selectedCarts.join(", ")}`)
-          }
+          onClick={handleMultiCartCheckout}
         >
           Checkout Selected ({selectedCarts.length})
         </Button>
@@ -259,7 +296,14 @@ const Cart = () => {
                         Total Price: ₹{totalPrice.toFixed(2)}
                       </Typography>
                       <Divider sx={{ my: 2 }} />
-                      <Button variant="contained" color="primary" fullWidth sx={{ mt: 2, py: 1.5 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        fullWidth
+                        sx={{ mt: 2, py: 1.5 }}
+                        disabled={cart.length === 0}
+                        onClick={() => handleSingleCartCheckout(cartName)}
+                      >
                         Checkout {cartName}
                       </Button>
                     </Paper>

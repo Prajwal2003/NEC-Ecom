@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Wishlist from "./pages/wishlist";
 import Footer from "./components/Footer";
 import OrdersPage from "./pages/OrderSection";
+import Checkout from "./pages/Checkout";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -40,6 +41,7 @@ const App = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/orders" element={<OrdersPage />} />
+      <Route path="/checkout" element={<Checkout />} />
     </Routes>
   </Box>
 
