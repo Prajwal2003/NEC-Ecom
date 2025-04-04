@@ -127,7 +127,7 @@ const HeroSection = () => {
         <BannerBox
           sx={{
             width: { xs: "100%", sm: "90%", md: "80%", lg: "90%" },
-            height: { xs: 150, sm: 250, md: 250 },
+            height: { xs: 150, sm: 250, md: 350 },
             position: "relative",
             overflow: "hidden",
             borderRadius: 3,
