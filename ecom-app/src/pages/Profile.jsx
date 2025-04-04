@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -11,12 +11,14 @@ import {
   DialogContent,
   DialogTitle,
   Avatar,
-  Divider,
   Grid,
+  IconButton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import profileData from "../../public/data/profile.json";  // Make sure to adjust the path if needed
+import profileData from "../../public/data/profile.json"; // adjust path if needed
 
 const ProfilePage = () => {
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
@@ -26,9 +28,10 @@ const ProfilePage = () => {
   const [updatedName, setUpdatedName] = useState(profileData.profile.name);
   const [updatedPhone, setUpdatedPhone] = useState(profileData.profile.phone);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleAddAddress = () => {
-    if (newAddress) {
+    if (newAddress.trim()) {
       setSavedAddresses([
         ...savedAddresses,
         { id: savedAddresses.length + 1, address: newAddress },
@@ -42,9 +45,7 @@ const ProfilePage = () => {
     setSavedAddresses(savedAddresses.filter((address) => address.id !== id));
   };
 
-  const handleEditProfile = () => {
-    setEditingProfile(true);
-  };
+  const handleEditProfile = () => setEditingProfile(true);
 
   const handleSaveProfile = () => {
     profileData.profile.name = updatedName;
@@ -53,64 +54,62 @@ const ProfilePage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        padding: 3,
-        bgcolor: "background.default",
-        color: "text.primary",
-      }}
-    >
-      <Typography variant="h4" sx={{ fontWeight: "bold", marginBottom: 3 }}>
+    <Box sx={{ p: { xs: 2, md: 4 }, bgcolor: "background.default", color: "text.primary" }}>
+      <Typography variant="h4" fontWeight="bold" mb={4}>
         My Profile
       </Typography>
 
-      <Grid container spacing={3}>
-        {/* Profile Card */}
+      <Grid container spacing={4}>
+        {/* Left: Profile */}
         <Grid item xs={12} md={4}>
-          <Card sx={{ padding: 2 }}>
+          <Card sx={{ p: 3, textAlign: "center" }}>
             <Avatar
               src={profileData.profile.avatar}
               alt="Profile Photo"
-              sx={{ width: 120, height: 120, marginBottom: 2 }}
+              sx={{
+                width: { xs: 80, sm: 100, md: 120 },
+                height: { xs: 80, sm: 100, md: 120 },
+                mx: "auto",
+                mb: 2,
+              }}
             />
             <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                {editingProfile ? (
+              {editingProfile ? (
+                <>
                   <TextField
                     fullWidth
+                    label="Name"
                     value={updatedName}
                     onChange={(e) => setUpdatedName(e.target.value)}
-                    variant="outlined"
                     size="small"
+                    sx={{ mb: 2 }}
                   />
-                ) : (
-                  profileData.profile.name
-                )}
-              </Typography>
-              <Typography variant="body1" sx={{ color: "text.secondary" }}>
-                {editingProfile ? (
                   <TextField
                     fullWidth
+                    label="Phone"
                     value={updatedPhone}
                     onChange={(e) => setUpdatedPhone(e.target.value)}
-                    variant="outlined"
                     size="small"
+                    sx={{ mb: 2 }}
                   />
-                ) : (
-                  profileData.profile.phone
-                )}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {profileData.profile.email}
-              </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="h6" fontWeight="bold">
+                    {updatedName}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {updatedPhone}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {profileData.profile.email}
+                  </Typography>
+                </>
+              )}
               <Button
                 variant="contained"
-                sx={{
-                  mt: 2,
-                  bgcolor: "primary.main",
-                  color: "primary.contrastText",
-                  "&:hover": { bgcolor: "primary.dark" },
-                }}
+                fullWidth
+                sx={{ mt: 2 }}
                 onClick={editingProfile ? handleSaveProfile : handleEditProfile}
               >
                 {editingProfile ? "Save Changes" : "Edit Profile"}
@@ -119,77 +118,88 @@ const ProfilePage = () => {
           </Card>
         </Grid>
 
-        {/* Order History */}
+        {/* Quick Access Section */}
         <Grid item xs={12} md={8}>
-          <Box sx={{ marginBottom: 3 }}>
-            <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: 1 }}>
-              Order History
-            </Typography>
-            {profileData.orders.map((order) => (
-              <Card key={order.id} sx={{ marginBottom: 2, padding: 2 }}>
-                <Typography variant="body1">
-                  {order.items.map((item, index) => (
-                    <Box key={index} sx={{ display: "flex", alignItems: "center", marginBottom: 1 }}>
-                      <Avatar
-                        src={item.image}
-                        alt={item.name}
-                        sx={{ width: 50, height: 50, marginRight: 2 }}
-                      />
-                      <Box>
-                        <Typography variant="body2">{item.name}</Typography>
-                        <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                          ${item.price}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  ))}
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    Order ID: {order.id} | Date: {order.date} | Status: {order.status}
-                  </Typography>
+          <Grid container spacing={2}>
+            {/* Orders */}
+            <Grid item xs={12} sm={6}>
+              <Card sx={{ p: 3, height: "100%" }}>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  Orders
                 </Typography>
+                <Typography variant="body2" color="text.secondary" mb={2}>
+                  View your past orders and their details.
+                </Typography>
+                <Button variant="outlined" fullWidth onClick={() => navigate("/orders")}>
+                  View Orders
+                </Button>
               </Card>
-            ))}
-          </Box>
+            </Grid>
+
+            {/* Manage Addresses */}
+            <Grid item xs={12} sm={6}>
+              <Card sx={{ p: 3, height: "100%" }}>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  Manage Addresses
+                </Typography>
+                <Typography variant="body2" color="text.secondary" mb={2}>
+                  Add or delete saved delivery addresses.
+                </Typography>
+                <Button variant="outlined" fullWidth onClick={() => setOpenAddressDialog(true)}>
+                  Add New Address
+                </Button>
+              </Card>
+            </Grid>
+
+            {/* Seller Dashboard */}
+            <Grid item xs={12} sm={6}>
+              <Card sx={{ p: 3, height: "100%" }}>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  Seller Dashboard
+                </Typography>
+                <Typography variant="body2" color="text.secondary" mb={2}>
+                  Manage your product listings and track performance.
+                </Typography>
+                <Button variant="outlined" fullWidth onClick={() => navigate("/seller")}>
+                  Go to Seller Panel
+                </Button>
+              </Card>
+            </Grid>
+
+            {/* Wishlist */}
+            <Grid item xs={12} sm={6}>
+              <Card sx={{ p: 3, height: "100%" }}>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  Wishlist
+                </Typography>
+                <Typography variant="body2" color="text.secondary" mb={2}>
+                  View your saved items and move them to cart.
+                </Typography>
+                <Button variant="outlined" fullWidth onClick={() => navigate("/wishlist")}>
+                  Go to Wishlist
+                </Button>
+              </Card>
+            </Grid>
+          </Grid>
         </Grid>
 
-        {/* Saved Addresses */}
+        {/* Saved Addresses Section */}
         <Grid item xs={12}>
-          <Typography variant="h6" sx={{ fontWeight: "bold", marginBottom: 1 }}>
+          <Typography variant="h6" fontWeight="bold" mb={2}>
             Saved Addresses
           </Typography>
-          {savedAddresses.map((address) => (
-            <Card key={address.id} sx={{ display: "flex", padding: 2, marginBottom: 2 }}>
-              <Box sx={{ flex: 1 }}>
-                <Typography variant="body2">
-                  {address.title} - {address.address}
-                </Typography>
-              </Box>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => handleDeleteAddress(address.id)}
-                sx={{ ml: 2 }}
-              >
-                Delete
-              </Button>
-            </Card>
-          ))}
-          <Button
-            variant="contained"
-            startIcon={<AddIcon />}
-            sx={{
-              mt: 2,
-              bgcolor: "primary.main",
-              color: "primary.contrastText",
-              "&:hover": { bgcolor: "primary.dark" },
-              paddingX: 2,
-              borderRadius: 2,
-              fontWeight: "bold",
-            }}
-            onClick={() => setOpenAddressDialog(true)}
-          >
-            Add New Address
-          </Button>
+          <Grid container spacing={2}>
+            {savedAddresses.map((address) => (
+              <Grid item xs={12} sm={6} md={4} key={address.id}>
+                <Card sx={{ p: 2, display: "flex", justifyContent: "space-between" }}>
+                  <Typography variant="body2">{address.address}</Typography>
+                  <IconButton color="error" onClick={() => handleDeleteAddress(address.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
         </Grid>
       </Grid>
 
@@ -204,15 +214,13 @@ const ProfilePage = () => {
             onChange={(e) => setNewAddress(e.target.value)}
             variant="outlined"
             size="small"
-            sx={{ mb: 2 }}
+            sx={{ mt: 1 }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpenAddressDialog(false)} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleAddAddress} color="primary">
-            Add Address
+          <Button onClick={() => setOpenAddressDialog(false)}>Cancel</Button>
+          <Button onClick={handleAddAddress} variant="contained">
+            Add
           </Button>
         </DialogActions>
       </Dialog>

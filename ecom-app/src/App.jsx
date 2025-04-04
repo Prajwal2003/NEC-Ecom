@@ -10,6 +10,7 @@ import ProductDetail from "./pages/ProductDetails";
 import Profile from "./pages/Profile";
 import Wishlist from "./pages/wishlist";
 import Footer from "./components/Footer";
+import OrdersPage from "./pages/OrderSection";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -38,6 +39,7 @@ const App = () => {
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/wishlist" element={<Wishlist />} />
+      <Route path="/orders" element={<OrdersPage />} />
     </Routes>
   </Box>
 

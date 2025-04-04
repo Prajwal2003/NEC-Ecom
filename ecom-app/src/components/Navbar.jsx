@@ -242,7 +242,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
           </Box>
         </Toolbar>
 
-{/* Expandable Search Bar (Mobile Only) */}
 <Collapse in={searchOpen} timeout="auto">
   <Box sx={{ display: "flex", alignItems: "center", px: 2, pb: 1 }}>
     <Box sx={{ flexGrow: 1, maxWidth: 400 }}>

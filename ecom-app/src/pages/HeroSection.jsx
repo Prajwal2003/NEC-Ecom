@@ -115,19 +115,11 @@ const HeroSection = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", marginTop: "50px" ,bgcolor: "background.default", p: 2 }}>
+    <Box sx={{ width: "100%" ,bgcolor: "background.default", p: 2 }}>
       <BannerBox>
         {ads.length > 0 && (
           <>
             <BannerImage src={ads[currentIndex].image} alt={ads[currentIndex].title} />
-            <Overlay>
-              <Typography variant="h4" fontWeight="bold" gutterBottom>
-                {ads[currentIndex].title}
-              </Typography>
-              <Button variant="contained" color="primary">
-                Shop Now
-              </Button>
-            </Overlay>
           </>
         )}
         <DotsContainer>
