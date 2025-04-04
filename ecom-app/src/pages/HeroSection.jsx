@@ -116,22 +116,59 @@ const HeroSection = () => {
 
   return (
     <Box sx={{ width: "100%" ,bgcolor: "background.default", p: 2 }}>
-      <BannerBox>
-        {ads.length > 0 && (
-          <>
-            <BannerImage src={ads[currentIndex].image} alt={ads[currentIndex].title} />
-          </>
-        )}
-        <DotsContainer>
-          {ads.map((_, index) => (
-            <FiberManualRecordIcon
-              key={index}
-              fontSize="small"
-              sx={{ color: index === currentIndex ? "white" : "gray", mx: 0.5 }}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          p: { xs: 2, sm: 3, md: 3 },
+        }}
+      >
+        <BannerBox
+          sx={{
+            width: { xs: "100%", sm: "90%", md: "80%", lg: "90%" },
+            height: { xs: 150, sm: 250, md: 250 },
+            position: "relative",
+            overflow: "hidden",
+            borderRadius: 3,
+            boxShadow: 3,
+          }}
+        >
+          {ads.length > 0 && (
+            <BannerImage
+              src={ads[currentIndex].image}
+              alt={ads[currentIndex].title}
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectFit: "fill",
+              }}
             />
-          ))}
-        </DotsContainer>
-      </BannerBox>
+          )}
+          <DotsContainer
+            sx={{
+              position: "absolute",
+              bottom: 8,
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {ads.map((_, index) => (
+              <FiberManualRecordIcon
+                key={index}
+                fontSize="inherit"
+                sx={{
+                  fontSize: { xs: 10, sm: 12, md: 14 },
+                  color: index === currentIndex ? "white" : "gray",
+                  mx: 0.4,
+                }}
+              />
+            ))}
+          </DotsContainer>
+        </BannerBox>
+      </Box>
 
       <Box sx={{ textAlign: "center", mt: 4, width: "100%" }}>
         {/* Heading */}

@@ -203,15 +203,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
               {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
 
-            {/* Notifications */}
-            {!isMobile && (
-              <IconButton onClick={() => navigate("/notifications")}>
-                <Badge badgeContent={notifications} color="error">
-                  <NotificationsNoneIcon />
-                </Badge>
-              </IconButton>
-            )}
-
             {/* Wishlist */}
             {!isMobile && (
               <IconButton onClick={() => navigate("/wishlist")}>
