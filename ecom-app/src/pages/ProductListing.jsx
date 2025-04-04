@@ -106,7 +106,7 @@ const ProductListing = () => {
           flexShrink: 0
         }}
       >
-
+      <Box sx={{ ml: 2.5 }}>
         <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold", fontSize: "1rem", color: "text.primary" }}>
           Filters
         </Typography>
@@ -147,6 +147,7 @@ const ProductListing = () => {
             </Box>
           </Box>
         ))}
+        </Box>
       </Box>
 
       {/* Product Grid */}
