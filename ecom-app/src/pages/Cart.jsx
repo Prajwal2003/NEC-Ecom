@@ -92,19 +92,32 @@ const Cart = () => {
         summary: { totalItems, totalPrice },
       };
     });
-
+  
+    const updatedCarts = { ...carts };
+    selectedCarts.forEach((name) => {
+      delete updatedCarts[name];
+    });
+    saveCarts(updatedCarts);
+    setSelectedCarts([]);
+  
     navigate("/checkout", {
       state: {
         selectedCarts: selectedData,
       },
     });
   };
+  
 
   const handleSingleCartCheckout = (cartName) => {
     const items = carts[cartName];
     if (items.length === 0) return;
-
+  
     const { totalItems, totalPrice } = calculateSummary(items);
+  
+    const updatedCarts = { ...carts };
+    delete updatedCarts[cartName];
+    saveCarts(updatedCarts);
+  
     navigate("/checkout", {
       state: {
         selectedCarts: [
@@ -117,6 +130,7 @@ const Cart = () => {
       },
     });
   };
+  
 
   return (
     <Box sx={{ padding: { xs: 2, md: 4 }, width: "100vw", minHeight: "100vh" }}>
