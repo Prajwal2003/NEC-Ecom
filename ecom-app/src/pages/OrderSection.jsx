@@ -18,8 +18,10 @@ const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    setOrders(profileData.orders);
+    const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    setOrders(storedOrders);
   }, []);
+  
 
   return (
     <Box sx={{ p: 3 }}>

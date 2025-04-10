@@ -12,6 +12,7 @@ import Wishlist from "./pages/wishlist";
 import Footer from "./components/Footer";
 import OrdersPage from "./pages/OrderSection";
 import Checkout from "./pages/Checkout";
+import PaymentGateway from "./pages/PaymentGateway";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -42,6 +43,7 @@ const App = () => {
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/payment" element={<PaymentGateway />} />
     </Routes>
   </Box>
 
