@@ -9,16 +9,24 @@
     "image": "/images/products/iphone-15-pro-max-1.jpg",
     "images": [
       "/images/products/iphone-15-pro-max-1.jpg",
+      "/images/products/iphone-15-pro-max-2.jpg",
+      "/images/products/fitbit.png",
       "/images/products/iphone-15-pro-max-2.jpg"
     ],
-    "description": "Experience cutting-edge technology with the Apple iPhone 15 Pro Max. Featuring a titanium body, A17 Bionic chip, and the best camera system yet.",
+    "description": "Experience innovation at its finest with the Apple iPhone 15 Pro Max. Crafted from aerospace-grade titanium, this flagship device is lightweight yet exceptionally durable. The 6.7-inch Super Retina XDR display offers true-to-life colors, deep blacks, and stunning brightness, perfect for gaming, streaming, and content creation. Powered by the all-new A17 Bionic chip, it delivers lightning-fast performance, superior power efficiency, and next-level AI enhancements. Capture cinematic shots with the revolutionary 48MP main sensor, telephoto lens, and advanced image processing. The iPhone 15 Pro Max now features USB-C fast charging for seamless connectivity and quicker power-ups. Dive into the future with iOS 17, offering smarter widgets, personalized lock screens, and improved privacy tools. Whether you're a professional or a tech enthusiast, this device redefines what a smartphone can do.",
     "features": [
       "6.7-inch Super Retina XDR display",
       "Titanium frame for durability",
       "48MP Main Camera with Telephoto lens",
       "USB-C fast charging",
       "iOS 17 with advanced AI features"
-    ]
+    ],
+    "seller": {
+      "sellerName": "TechBazaar India",
+      "sellerRating": 4.6,
+      "returnPolicy": "10-day replacement only",
+      "warranty": "1 year manufacturer warranty"
+    }
   },
   {
     "id": 2,
@@ -32,14 +40,20 @@
       "/images/products/sony-wh1000xm5-1.jpg",
       "/images/products/sony-wh1000xm5-2.jpg"
     ],
-    "description": "Industry-leading noise cancellation, crystal-clear call quality, and 30-hour battery life for an unparalleled audio experience.",
+    "description": "Immerse yourself in a world of pure sound with the Sony WH-1000XM5, the industry-leading noise cancelling headphones. With dual processors and eight microphones, they adapt to your environment and provide truly uninterrupted audio. These over-ear headphones offer a crystal-clear call experience, intuitive touch controls, and multi-device pairing for effortless switching. Enjoy up to 30 hours of battery life and quick charge capabilities that give you hours of playback with just a few minutes of charging. Perfect for travel, work, or relaxation, they redefine wireless listening.",
     "features": [
       "Adaptive noise cancellation",
       "30-hour battery life with fast charging",
       "High-resolution audio support",
       "Multi-device pairing",
       "Touch controls for easy navigation"
-    ]
+    ],
+    "seller": {
+      "sellerName": "AudioExpress India",
+      "sellerRating": 4.8,
+      "returnPolicy": "7-day return & refund",
+      "warranty": "1 year brand warranty"
+    }
   },
   {
     "id": 3,
@@ -53,13 +67,19 @@
       "/images/products/nike-air-jordan-1.jpg",
       "/images/products/nike-air-jordan-2.jpg"
     ],
-    "description": "The legendary Nike Air Jordan 1 Retro High OG combines heritage style with modern comfort. Iconic design, premium materials, and unmatched sneaker culture status.",
+    "description": "Step into iconic style with the Nike Air Jordan 1 Retro High OG. Revered by sneakerheads and athletes alike, this legendary silhouette is built with premium leather and offers a heritage look that pays homage to MJ’s first signature shoe. The high-top design delivers ankle support and standout presence, while the responsive cushioning keeps you comfortable all day long. Whether you’re collecting or styling, these kicks are a statement piece. Perfect for casual wear, court action, or street fashion.",
     "features": [
       "Premium leather upper",
       "Iconic Air Jordan design",
       "Responsive cushioning for comfort",
       "Durable rubber outsole for traction"
-    ]
+    ],
+    "seller": {
+      "sellerName": "SneakerWorld",
+      "sellerRating": 4.9,
+      "returnPolicy": "15-day return policy",
+      "warranty": "No manufacturer warranty"
+    }
   },
   {
     "id": 4,
@@ -73,14 +93,20 @@
       "/images/products/samsung-watch6-1.jpg",
       "/images/products/samsung-watch6-2.jpg"
     ],
-    "description": "Stay connected and track your fitness with the Samsung Galaxy Watch 6, featuring advanced health monitoring and seamless Galaxy ecosystem integration.",
+    "description": "Track your wellness and stay connected in style with the Samsung Galaxy Watch 6. Featuring a vivid 1.4-inch Super AMOLED display, it offers intuitive touch controls and customizable watch faces. Monitor your heart rate, ECG, SpO2 levels, and sleep patterns seamlessly. Stay powered with up to 40 hours of battery life and water-resistant design that’s ready for any adventure. Integrated with Samsung Pay and the Galaxy ecosystem, it’s the perfect companion for Android users who want functionality wrapped in elegance.",
     "features": [
       "1.4-inch Super AMOLED display",
       "ECG and SpO2 monitoring",
       "Up to 40 hours battery life",
       "Water-resistant design",
       "Samsung Pay support"
-    ]
+    ],
+    "seller": {
+      "sellerName": "GadgetKing",
+      "sellerRating": 4.5,
+      "returnPolicy": "7-day exchange only",
+      "warranty": "1 year Samsung India warranty"
+    }
   },
   {
     "id": 5,
@@ -94,14 +120,20 @@
       "/images/products/dell-xps-15-1.jpg",
       "/images/products/dell-xps-15-2.jpg"
     ],
-    "description": "The Dell XPS 15 redefines power and portability with a stunning 4K display and Intel Core i9 processor for seamless multitasking.",
+    "description": "Push the boundaries of performance with the Dell XPS 15, a powerhouse built for creators and professionals. Its 15.6-inch 4K Ultra HD touchscreen provides immersive clarity, while the Intel Core i9 processor and NVIDIA RTX 4060 GPU deliver high-speed multitasking and smooth graphics rendering. With 32GB RAM and 1TB SSD, experience lightning-fast load times and ample storage. Encased in a sleek aluminum body, it also features a fingerprint scanner and Windows Hello for secure login. Ideal for designers, developers, and tech aficionados.",
     "features": [
       "15.6-inch 4K Ultra HD touchscreen",
       "Intel Core i9 13th Gen processor",
       "NVIDIA GeForce RTX 4060 GPU",
       "32GB RAM, 1TB SSD storage",
       "Fingerprint scanner & Windows Hello"
-    ]
+    ],
+    "seller": {
+      "sellerName": "TechBliss",
+      "sellerRating": 4.7,
+      "returnPolicy": "10-day replacement only",
+      "warranty": "1 year onsite warranty by Dell"
+    }
   },
   {
     "id": 6,
@@ -115,14 +147,20 @@
       "/images/products/bose-qc-earbuds-1.jpg",
       "/images/products/bose-qc-earbuds-2.jpg"
     ],
-    "description": "The Bose QuietComfort Earbuds II redefine immersive listening with world-class noise cancellation and superior comfort for long-lasting wear.",
+    "description": "Rediscover peace and premium audio with the Bose QuietComfort Earbuds II. These compact earbuds offer world-class noise cancellation using CustomTune technology that adapts to your ears for unparalleled immersion. With up to 24 hours of battery life and an IPX4 water resistance rating, they’re perfect for long commutes, workouts, or just zoning out. Touch-sensitive controls and Bluetooth 5.3 ensure seamless interaction and connectivity. Designed for audiophiles and comfort-lovers alike.",
     "features": [
       "CustomTune sound calibration",
       "Up to 24 hours battery life with case",
       "IPX4 water resistance",
       "Touch-sensitive controls",
       "Bluetooth 5.3 for stable connectivity"
-    ]
+    ],
+    "seller": {
+      "sellerName": "SoundScape Electronics",
+      "sellerRating": 4.6,
+      "returnPolicy": "7-day return",
+      "warranty": "1 year international Bose warranty"
+    }
   },
   {
     "id": 7,
@@ -136,14 +174,20 @@
       "/images/products/adidas-ultraboost-1.jpg",
       "/images/products/adidas-ultraboost-2.jpg"
     ],
-    "description": "The Adidas Ultraboost 22 provides exceptional energy return and comfort, making it the perfect choice for runners and sneaker enthusiasts alike.",
+    "description": "Unleash your inner athlete with the Adidas Ultraboost 22, designed for superior energy return, comfort, and flexibility. The Boost midsole cushions your every step, while the Primeknit upper wraps your foot like a second skin. The Continental rubber outsole ensures durability and traction on all surfaces. Whether you're running a marathon or walking around town, these shoes adapt to your lifestyle with unmatched ease.",
     "features": [
       "Boost midsole technology",
       "Primeknit upper for breathability",
       "Continental rubber outsole",
       "Lightweight and flexible",
       "Responsive cushioning for long runs"
-    ]
+    ],
+    "seller": {
+      "sellerName": "StrideSports India",
+      "sellerRating": 4.7,
+      "returnPolicy": "15-day return or size exchange",
+      "warranty": "6 months manufacturer warranty"
+    }
   },
   {
     "id": 8,
@@ -157,14 +201,20 @@
       "/images/products/samsung-4k-tv-1.jpg",
       "/images/products/samsung-4k-tv-2.jpg"
     ],
-    "description": "Enjoy stunning visuals and immersive sound with the Samsung 55-inch 4K Smart TV, powered by a Quantum Dot display and Dolby Atmos.",
+    "description": "Transform your living room into a cinematic paradise with the Samsung 55-inch 4K Smart TV. Powered by Quantum HDR and a crystal-clear 120Hz refresh rate, this TV delivers vibrant visuals and ultra-smooth motion for sports and movies alike. Enjoy immersive Dolby Atmos sound, access popular streaming apps with Tizen OS, and control it all with voice assistants like Alexa and Bixby. It’s the future of entertainment, now in your home.",
     "features": [
       "Quantum HDR 4K resolution",
       "120Hz refresh rate for smooth visuals",
       "Dolby Atmos surround sound",
       "Tizen Smart OS with streaming apps",
       "Voice control with Bixby & Alexa"
-    ]
+    ],
+    "seller": {
+      "sellerName": "ElectroMart",
+      "sellerRating": 4.5,
+      "returnPolicy": "10-day replacement",
+      "warranty": "1 year Samsung warranty"
+    }
   },
   {
     "id": 9,
@@ -178,14 +228,20 @@
       "/images/products/gopro-hero11-1.jpg",
       "/images/products/gopro-hero11-2.jpg"
     ],
-    "description": "Capture stunning adventures in 5.3K resolution with the GoPro Hero 11 Black, featuring HyperSmooth 5.0 stabilization and waterproof design.",
+    "description": "Capture your world like never before with the GoPro Hero 11 Black. Shoot stunning 5.3K videos, record in slow motion, or stream live—all in one compact, rugged camera. With HyperSmooth 5.0 stabilization, even your wildest adventures will look buttery smooth. Waterproof up to 33ft and designed to withstand extreme conditions, it’s perfect for travelers, athletes, and content creators who demand the best.",
     "features": [
       "5.3K60 Ultra HD video recording",
       "HyperSmooth 5.0 stabilization",
       "Waterproof up to 33ft",
       "Live streaming & webcam mode",
       "Long-lasting battery life"
-    ]
+    ],
+    "seller": {
+      "sellerName": "CamZone",
+      "sellerRating": 4.6,
+      "returnPolicy": "7-day return",
+      "warranty": "1 year GoPro warranty"
+    }
   },
   {
     "id": 10,
@@ -199,13 +255,19 @@
       "/images/products/macbook-air-m2-1.jpg",
       "/images/products/macbook-air-m2-2.jpg"
     ],
-    "description": "The MacBook Air M2 delivers incredible performance, all-day battery life, and a sleek, lightweight design powered by the Apple M2 chip.",
+    "description": "The Apple MacBook Air M2 is elegance, performance, and efficiency rolled into one. Featuring the powerful Apple M2 chip, this lightweight device delivers blazing speeds and all-day battery life. The 13.6-inch Liquid Retina display provides vibrant visuals and crystal-clear text, while MagSafe charging ensures safety and convenience. Perfect for professionals and students alike, the MacBook Air M2 handles everything from editing to multitasking with seamless grace.",
     "features": [
       "Apple M2 chip with 8-core CPU",
       "13.6-inch Liquid Retina display",
       "18-hour battery life",
       "MagSafe fast charging",
       "macOS Ventura with powerful tools"
-    ]
+    ],
+    "seller": {
+      "sellerName": "Apple Store India",
+      "sellerRating": 4.8,
+      "returnPolicy": "10-day return",
+      "warranty": "1 year Apple warranty + 90 days phone support"
+    }
   }
 ]
