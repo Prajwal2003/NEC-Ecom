@@ -24,6 +24,9 @@ import {
   CardMedia,
   CardContent,
   Rating,
+  Avatar,
+  Chip,
+  Stack,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slider from "react-slick";
@@ -31,6 +34,11 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -40,6 +48,7 @@ const ProductDetails = () => {
   const [cartUpdated, setCartUpdated] = useState(false);
   const [wishlistDialogOpen, setWishlistDialogOpen] = useState(false);
   const [cartDialogOpen, setCartDialogOpen] = useState(false);
+  const [sellerDetails, setSellerDetails] = useState(null);
 
   const [wishlists, setWishlists] = useState({});
   const [selectedWishlists, setSelectedWishlists] = useState([]);
@@ -51,23 +60,37 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
-    fetch("/data/products.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const foundProduct = data.find((item) => item.id === parseInt(id));
+    const fetchData = async () => {
+      try {
+        // Fetch product data
+        const productResponse = await fetch("/data/products.json");
+        const productData = await productResponse.json();
+        const foundProduct = productData.find((item) => item.id === parseInt(id));
         setProduct(foundProduct);
-        // Get related products (same category, excluding current product)
-        const related = data
+
+        // Get related products
+        const related = productData
           .filter(item => item.category === foundProduct.category && item.id !== foundProduct.id)
           .slice(0, 4);
         setRelatedProducts(related);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error loading product:", error);
-        setLoading(false);
-      });
 
+        // Fetch seller data
+        const sellerResponse = await fetch("/data/sellers.json");
+        const sellerData = await sellerResponse.json();
+        console.log("Seller Data:", sellerData);
+        console.log("Product Seller Name:", foundProduct.seller.sellerName);
+        const foundSeller = sellerData.find(seller => seller.name === foundProduct.seller.sellerName);
+        console.log("Found Seller:", foundSeller);
+        setSellerDetails(foundSeller);
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
     setWishlists(JSON.parse(localStorage.getItem("wishlists")) || {});
     setCarts(JSON.parse(localStorage.getItem("carts")) || {});
   }, [id]);
@@ -210,7 +233,7 @@ const ProductDetails = () => {
                 <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
                   {product.name}
                 </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
+                <Typography variant="body1" color="text.secondary" sx={{ mt: 0 }}>
                   {product.category} • {product.brand}
                 </Typography>
 
@@ -218,14 +241,9 @@ const ProductDetails = () => {
                   display: 'flex', 
                   alignItems: 'center', 
                   gap: 1, 
-                  mt: 2,
-                  p: 1,
-                  bgcolor: 'background.paper',
-                  borderRadius: 1,
-                  boxShadow: 1,
-                  width: 'fit-content'
+                  mt: 0,
                 }}>
-                  <Rating value={product.rating} precision={0.1} readOnly />
+                  <Rating value={product.rating} precision={0.5} readOnly />
                   <Typography variant="body2" color="text.secondary">
                     ({product.rating} / 5)
                   </Typography>
@@ -234,25 +252,59 @@ const ProductDetails = () => {
 
               {/* Price Box */}
               <Box sx={{ 
-                p: 2,
-                bgcolor: 'background.paper',
-                borderRadius: 1,
-                boxShadow: 1
+                p: 0,
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                mt: -2,
+                mb: -3
               }}>
                 <Typography variant="h5" color="primary" fontWeight="bold">
                   ₹{product.price.toLocaleString('en-IN')}
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                <Typography variant="body2" color="text.secondary"  sx={{ mb: 1 }}>
                   Inclusive of all taxes
                 </Typography>
               </Box>
 
+              {/* Condensed Seller Info */}
+              {sellerDetails && (
+                <Box sx={{ 
+                  p: 1, 
+                  borderBottom: '1px solid',
+                  borderColor: 'divider'
+                }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2" fontWeight="medium">
+                        Sold by {sellerDetails.name}
+                      </Typography>
+                      {sellerDetails.verificationStatus === "verified" && (
+                        <VerifiedIcon color="primary" sx={{ fontSize: 16 }} />
+                      )}
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                      <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                        ({sellerDetails.rating})
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <LocalShippingIcon color="action" sx={{ fontSize: 16 }} />
+                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                      Ships in {sellerDetails.shippingTime}
+                    </Typography>
+                  </Box>
+                </Box>
+              )}
+
               {/* Quick Info Box */}
               <Box sx={{ 
                 p: 2, 
-                bgcolor: 'background.paper',
-                borderRadius: 1,
-                boxShadow: 1
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                mt: -2,
+                mb: 1
               }}>
                 <Typography variant="h6" fontWeight="bold" gutterBottom>
                   Quick Info
@@ -282,7 +334,7 @@ const ProductDetails = () => {
               </Box>
 
               {/* Action Buttons */}
-              <Box sx={{ display: "flex", gap: 2, mt: 1 }}>
+              <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
                 <Button 
                   variant="contained" 
                   color="primary" 
@@ -315,7 +367,7 @@ const ProductDetails = () => {
 
           {/* Detailed Information Accordions */}
           <Box sx={{ mt: 4 }}>
-            <Accordion defaultExpanded>
+            <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="subtitle1" fontWeight="bold">Product Details</Typography>
               </AccordionSummary>
@@ -334,9 +386,8 @@ const ProductDetails = () => {
                             alignItems: 'flex-start', 
                             gap: 1,
                             p: 1.5,
-                            bgcolor: 'background.paper',
-                            borderRadius: 1,
-                            boxShadow: 1
+                            borderBottom: '1px solid',
+                            borderColor: 'divider',
                           }}>
                             <Typography variant="body1">• {feature}</Typography>
                           </Box>
@@ -344,7 +395,6 @@ const ProductDetails = () => {
                       ))}
                     </Grid>
                   </Grid>
-
                 </Grid>
               </AccordionDetails>
             </Accordion>
@@ -365,45 +415,162 @@ const ProductDetails = () => {
                 <Typography variant="subtitle1" fontWeight="bold">Seller Information</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Box sx={{ 
-                      p: 2, 
-                      bgcolor: 'background.paper',
-                      borderRadius: 1,
-                      boxShadow: 1
-                    }}>
-                      <Typography variant="subtitle2" color="text.secondary">Seller</Typography>
-                      <Typography variant="body1">{product.seller.sellerName}</Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1 }}>
-                        <Rating value={product.seller.sellerRating} precision={0.1} readOnly size="small" />
-                        <Typography variant="body2">({product.seller.sellerRating})</Typography>
+                {sellerDetails && (
+                  <Stack spacing={2}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography variant="subtitle1" fontWeight="medium">
+                          {sellerDetails.name}
+                        </Typography>
+                        {sellerDetails.verificationStatus === "verified" && (
+                          <VerifiedIcon color="primary" sx={{ fontSize: 20 }} />
+                        )}
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
+                        <Typography variant="body2" color="text.secondary">
+                          ({sellerDetails.rating})
+                        </Typography>
                       </Box>
                     </Box>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Box sx={{ 
-                      p: 2, 
-                      bgcolor: 'background.paper',
-                      borderRadius: 1,
-                      boxShadow: 1
-                    }}>
-                      <Typography variant="subtitle2" color="text.secondary">Return Policy</Typography>
-                      <Typography variant="body1">{product.seller.returnPolicy}</Typography>
+
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {sellerDetails.badges.map((badge, index) => (
+                        <Chip
+                          key={index}
+                          label={badge}
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                        />
+                      ))}
                     </Box>
-                  </Grid>
-                  <Grid item xs={12}>
+
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <AccessTimeIcon color="action" sx={{ fontSize: 20 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            {sellerDetails.businessHours}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <LocalShippingIcon color="action" sx={{ fontSize: 20 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            Ships in {sellerDetails.shippingTime}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <LocationOnIcon color="action" sx={{ fontSize: 20 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            {sellerDetails.location}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                    </Grid>
+
                     <Box sx={{ 
-                      p: 2, 
-                      bgcolor: 'background.paper',
-                      borderRadius: 1,
-                      boxShadow: 1
+                      mt: 1, 
+                      p: 1.5,
+                      borderBottom: '1px solid',
+                      borderColor: 'divider',
                     }}>
-                      <Typography variant="subtitle2" color="text.secondary">Warranty</Typography>
-                      <Typography variant="body1">{product.seller.warranty}</Typography>
+                      <Typography variant="body2" color="text.secondary" paragraph>
+                        {sellerDetails.description}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Response Time: {sellerDetails.customerSupport.responseTime}
+                      </Typography>
                     </Box>
-                  </Grid>
-                </Grid>
+
+                    <Box sx={{ 
+                      p: 1.5,
+                      borderBottom: '1px solid',
+                      borderColor: 'divider',
+                    }}>
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                        Contact Details
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Email: {sellerDetails.customerSupport.email}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Phone: {sellerDetails.customerSupport.phone}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                )}
+              </AccordionDetails>
+            </Accordion>
+          </Box>
+
+          {/* Reviews Section */}
+          <Box sx={{ mt: 4 }}>
+            <Accordion defaultExpanded>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Typography variant="subtitle1" fontWeight="bold">Customer Reviews</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Rating value={product.rating} precision={0.1} readOnly size="small" />
+                    <Typography variant="body2" color="text.secondary">
+                      ({product.reviews?.length || 0} reviews)
+                    </Typography>
+                  </Box>
+                </Box>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  {product.reviews?.map((review) => (
+                    <Box key={review.id} sx={{ 
+                      position: 'relative',
+                      pb: 3,
+                      '&:not(:last-child)': {
+                        borderBottom: '1px solid',
+                        borderColor: 'divider',
+                      }
+                    }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            {review.userName.charAt(0)}
+                          </Avatar>
+                          <Box>
+                            <Typography variant="subtitle1" fontWeight="bold">
+                              {review.userName}
+                              {review.verified && (
+                                <Chip
+                                  icon={<VerifiedIcon />}
+                                  label="Verified Purchase"
+                                  size="small"
+                                  color="primary"
+                                  sx={{ ml: 1 }}
+                                />
+                              )}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {new Date(review.date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Rating value={review.rating} readOnly size="small" />
+                      </Box>
+                      <Typography variant="h6" gutterBottom>
+                        {review.title}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {review.comment}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
               </AccordionDetails>
             </Accordion>
           </Box>
@@ -468,20 +635,11 @@ const ProductDetails = () => {
         onClose={() => setCartDialogOpen(false)}
         maxWidth="sm"
         fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 2,
-            boxShadow: 3,
-            bgcolor: 'background.paper'
-          }
-        }}
       >
         <DialogTitle sx={{ 
-          bgcolor: 'primary.main', 
-          color: 'white',
           py: 2,
           borderBottom: '1px solid',
-          borderColor: 'primary.dark',
+          borderColor: 'divider',
           display: 'flex',
           alignItems: 'center',
           gap: 1
@@ -489,16 +647,14 @@ const ProductDetails = () => {
           <ShoppingCartIcon />
           Add to Cart
         </DialogTitle>
-        <DialogContent sx={{ pt: 3, bgcolor: 'background.paper' }}>
+        <DialogContent sx={{ pt: 3 }}>
           <Box sx={{ 
-            mb: 3, 
-            p: 2, 
-            bgcolor: 'background.default',
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider'
+            mb: 3,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            pb: 2
           }}>
-            <Typography variant="h6" gutterBottom color="text.primary">
+            <Typography variant="h6" gutterBottom sx={{ mt: 1 }}>
               {product?.name}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -510,18 +666,16 @@ const ProductDetails = () => {
             </Typography>
           </Box>
 
-          <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
+          <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
             Select Cart
           </Typography>
           <Box sx={{ 
             maxHeight: 200, 
-            overflow: 'auto', 
-            border: '1px solid',
+            overflow: 'auto',
+            borderBottom: '1px solid',
             borderColor: 'divider',
-            borderRadius: 1,
-            p: 1,
-            mb: 2,
-            bgcolor: 'background.default'
+            pb: 2,
+            mb: 2
           }}>
             {Object.keys(carts).length > 0 ? (
               Object.keys(carts).map((cartName) => (
@@ -626,6 +780,7 @@ const ProductDetails = () => {
             onClick={() => setCartDialogOpen(false)} 
             color="inherit"
             variant="outlined"
+            sx={{mt: 1}}
           >
             Cancel
           </Button>
@@ -634,6 +789,7 @@ const ProductDetails = () => {
             variant="contained"
             color="primary"
             disabled={!selectedCart}
+            sx={{mt: 1}}
           >
             Add to Cart
           </Button>
@@ -646,20 +802,11 @@ const ProductDetails = () => {
         onClose={() => setWishlistDialogOpen(false)}
         maxWidth="sm"
         fullWidth
-        PaperProps={{
-          sx: {
-            borderRadius: 2,
-            boxShadow: 3,
-            bgcolor: 'background.paper'
-          }
-        }}
       >
         <DialogTitle sx={{ 
-          bgcolor: 'secondary.main', 
-          color: 'white',
           py: 2,
           borderBottom: '1px solid',
-          borderColor: 'secondary.dark',
+          borderColor: 'divider',
           display: 'flex',
           alignItems: 'center',
           gap: 1
@@ -667,16 +814,14 @@ const ProductDetails = () => {
           <FavoriteIcon />
           Add to Wishlist
         </DialogTitle>
-        <DialogContent sx={{ pt: 3, bgcolor: 'background.paper' }}>
+        <DialogContent sx={{ pt: 3 }}>
           <Box sx={{ 
-            mb: 3, 
-            p: 2, 
-            bgcolor: 'background.default',
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider'
+            mb: 3,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            pb: 2
           }}>
-            <Typography variant="h6" gutterBottom color="text.primary">
+            <Typography variant="h6" gutterBottom sx={{mt: 1}}>
               {product?.name}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -688,18 +833,16 @@ const ProductDetails = () => {
             </Typography>
           </Box>
 
-          <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
+          <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
             Select Wishlists
           </Typography>
           <Box sx={{ 
             maxHeight: 200, 
-            overflow: 'auto', 
-            border: '1px solid',
+            overflow: 'auto',
+            borderBottom: '1px solid',
             borderColor: 'divider',
-            borderRadius: 1,
-            p: 1,
-            mb: 2,
-            bgcolor: 'background.default'
+            pb: 2,
+            mb: 2
           }}>
             {Object.keys(wishlists).length > 0 ? (
               Object.keys(wishlists).map((wishlistName) => (
@@ -790,11 +933,11 @@ const ProductDetails = () => {
         </DialogContent>
         <DialogActions sx={{ 
           p: 2, 
-          pt: 0, 
+          pt: 1, 
           bgcolor: 'background.paper', 
           borderTop: '1px solid', 
           borderColor: 'divider',
-          gap: 1
+          gap: 1,
         }}>
           <Button 
             onClick={() => setWishlistDialogOpen(false)} 
@@ -805,7 +948,7 @@ const ProductDetails = () => {
               color: 'text.primary',
               '&:hover': {
                 borderColor: 'secondary.main',
-                bgcolor: 'action.hover'
+                bgcolor: 'action.hover',
               }
             }}
           >
@@ -819,7 +962,7 @@ const ProductDetails = () => {
             sx={{
               bgcolor: 'secondary.main',
               '&:hover': {
-                bgcolor: 'secondary.dark'
+                bgcolor: 'secondary.dark',
               }
             }}
           >
