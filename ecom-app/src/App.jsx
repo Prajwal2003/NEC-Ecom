@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import OrdersPage from "./pages/OrderSection";
 import Checkout from "./pages/Checkout";
 import PaymentGateway from "./pages/PaymentGateway";
+import Bids from "./pages/Bids";
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -40,6 +41,10 @@ const App = () => {
       <Route path="/cart" element={<Cart />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/carts" element={<Profile />} />
+      <Route path="/profile/wishlists" element={<Profile />} />
+      <Route path="/profile/bids" element={<Bids />} />
+      <Route path="/profile/settings" element={<Profile />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="/orders" element={<OrdersPage />} />
       <Route path="/checkout" element={<Checkout />} />

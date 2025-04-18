@@ -5,6 +5,26 @@
     "category": "Electronics",
     "brand": "Apple",
     "price": 149999,
+    "inStock": true,
+    "isAuction": true,
+    "auctionDetails": {
+      "currentBid": 120000,
+      "minimumBid": 125000,
+      "bids": 12,
+      "timeLeft": "2d 5h 30m",
+      "bidders": [
+        {
+          "name": "Rahul Sharma",
+          "bidAmount": 120000,
+          "time": "2024-03-20T14:30:00"
+        },
+        {
+          "name": "Priya Patel",
+          "bidAmount": 115000,
+          "time": "2024-03-20T13:45:00"
+        }
+      ]
+    },
     "rating": 4.8,
     "image": "/images/products/iphone-15-pro-max-1.jpg",
     "images": [
@@ -63,6 +83,7 @@
     "category": "Electronics",
     "brand": "Sony",
     "price": 29999,
+    "inStock": true,
     "rating": 4.7,
     "image": "/images/products/sony-wh1000xm5-1.jpg",
     "images": [
@@ -119,6 +140,7 @@
     "category": "Fashion",
     "brand": "Nike",
     "price": 17999,
+    "inStock": true,
     "rating": 4.9,
     "image": "/images/products/nike-air-jordan-1.jpg",
     "images": [
@@ -174,6 +196,7 @@
     "category": "Electronics",
     "brand": "Samsung",
     "price": 34999,
+    "inStock": true,
     "rating": 4.6,
     "image": "/images/products/samsung-watch6-1.jpg",
     "images": [
@@ -230,6 +253,7 @@
     "category": "Electronics",
     "brand": "Dell",
     "price": 189999,
+    "inStock": true,
     "rating": 4.7,
     "image": "/images/products/dell-xps-15-1.jpg",
     "images": [
@@ -286,6 +310,7 @@
     "category": "Electronics",
     "brand": "Bose",
     "price": 24999,
+    "inStock": true,
     "rating": 4.8,
     "image": "/images/products/bose-qc-earbuds-1.jpg",
     "images": [
@@ -342,6 +367,7 @@
     "category": "Fashion",
     "brand": "Adidas",
     "price": 15999,
+    "inStock": true,
     "rating": 4.7,
     "image": "/images/products/adidas-ultraboost-1.jpg",
     "images": [
@@ -398,6 +424,7 @@
     "category": "Electronics",
     "brand": "Samsung",
     "price": 54999,
+    "inStock": true,
     "rating": 4.7,
     "image": "/images/products/samsung-4k-tv-1.jpg",
     "images": [
@@ -454,6 +481,7 @@
     "category": "Electronics",
     "brand": "GoPro",
     "price": 41999,
+    "inStock": true,
     "rating": 4.8,
     "image": "/images/products/gopro-hero11-1.jpg",
     "images": [
@@ -510,6 +538,7 @@
     "category": "Electronics",
     "brand": "Apple",
     "price": 119999,
+    "inStock": false,
     "rating": 4.9,
     "image": "/images/products/macbook-air-m2-1.jpg",
     "images": [

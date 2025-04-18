@@ -27,6 +27,7 @@ import {
   Avatar,
   Chip,
   Stack,
+  Alert,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slider from "react-slick";
@@ -58,6 +59,10 @@ const ProductDetails = () => {
   const [selectedCart, setSelectedCart] = useState("");
   const [newCartName, setNewCartName] = useState("");
   const [quantity, setQuantity] = useState(1);
+
+  const [bidDialogOpen, setBidDialogOpen] = useState(false);
+  const [bidAmount, setBidAmount] = useState('');
+  const [bidPlaced, setBidPlaced] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -126,6 +131,14 @@ const ProductDetails = () => {
     saveCarts(updatedCarts);
     setSelectedCart(newCartName);
     setNewCartName("");
+  };
+
+  const handlePlaceBid = () => {
+    if (parseInt(bidAmount) >= product.auctionDetails.minimumBid) {
+      setBidPlaced(true);
+      setBidDialogOpen(false);
+      setBidAmount('');
+    }
   };
 
   if (loading) {
@@ -258,12 +271,36 @@ const ProductDetails = () => {
                 mt: -2,
                 mb: -3
               }}>
-                <Typography variant="h5" color="primary" fontWeight="bold">
-                  ₹{product.price.toLocaleString('en-IN')}
-                </Typography>
-                <Typography variant="body2" color="text.secondary"  sx={{ mb: 1 }}>
-                  Inclusive of all taxes
-                </Typography>
+                {product.isAuction ? (
+                  <>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                      <Typography variant="h5" color="primary" fontWeight="bold">
+                        Current Bid: ₹{product.auctionDetails.currentBid.toLocaleString('en-IN')}
+                      </Typography>
+                      <Chip 
+                        label={`${product.auctionDetails.bids} bids`} 
+                        color="primary" 
+                        variant="outlined" 
+                        size="small"
+                      />
+                    </Box>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      Minimum Bid: ₹{product.auctionDetails.minimumBid.toLocaleString('en-IN')}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Time Left: {product.auctionDetails.timeLeft}
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <Typography variant="h5" color="primary" fontWeight="bold">
+                      ₹{product.price.toLocaleString('en-IN')}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      Inclusive of all taxes
+                    </Typography>
+                  </>
+                )}
               </Box>
 
               {/* Condensed Seller Info */}
@@ -335,32 +372,65 @@ const ProductDetails = () => {
 
               {/* Action Buttons */}
               <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-                <Button 
-                  variant="contained" 
-                  color="primary" 
-                  onClick={() => setCartDialogOpen(true)}
-                  sx={{ 
-                    flex: 1,
-                    py: 1.5,
-                    textTransform: 'none',
-                    fontSize: '1rem'
-                  }}
-                >
-                  Add to Cart
-                </Button>
-                <Button 
-                  variant="outlined" 
-                  color="secondary" 
-                  onClick={() => setWishlistDialogOpen(true)}
-                  sx={{ 
-                    flex: 1,
-                    py: 1.5,
-                    textTransform: 'none',
-                    fontSize: '1rem'
-                  }}
-                >
-                  Add to Wishlist
-                </Button>
+                {product.isAuction ? (
+                  <>
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                      onClick={() => setBidDialogOpen(true)}
+                      sx={{ 
+                        flex: 1,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      Bid for Auction
+                    </Button>
+                    <Button 
+                      variant="outlined" 
+                      color="secondary" 
+                      onClick={() => setWishlistDialogOpen(true)}
+                      sx={{ 
+                        flex: 1,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      Add to Wishlist
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button 
+                      variant="contained" 
+                      color="primary" 
+                      onClick={() => setCartDialogOpen(true)}
+                      sx={{ 
+                        flex: 1,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      Add to Cart
+                    </Button>
+                    <Button 
+                      variant="outlined" 
+                      color="secondary" 
+                      onClick={() => setWishlistDialogOpen(true)}
+                      sx={{ 
+                        flex: 1,
+                        py: 1.5,
+                        textTransform: 'none',
+                        fontSize: '1rem'
+                      }}
+                    >
+                      Add to Wishlist
+                    </Button>
+                  </>
+                )}
               </Box>
             </Box>
           </Box>
@@ -581,50 +651,166 @@ const ProductDetails = () => {
               <Typography variant="h5" fontWeight="bold" gutterBottom>
                 Related Products
               </Typography>
-              <Grid container spacing={3}>
+              <Box sx={{ 
+                display: 'flex',
+                overflowX: 'auto',
+                gap: 3,
+                py: 2,
+                scrollbarWidth: 'none', // Firefox
+                '&::-webkit-scrollbar': { // Chrome, Safari, Edge
+                  display: 'none'
+                },
+                '& > *': {
+                  flex: '0 0 auto',
+                  minWidth: 280,
+                  maxWidth: 280
+                }
+              }}>
                 {relatedProducts.map((relatedProduct) => (
-                  <Grid item xs={12} sm={6} md={3} key={relatedProduct.id}>
-                    <Card 
-                      component={Link} 
-                      to={`/product/${relatedProduct.id}`}
-                      sx={{ 
-                        textDecoration: 'none',
-                        height: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        transition: 'transform 0.2s',
-                        '&:hover': {
-                          transform: 'translateY(-4px)',
-                        }
-                      }}
-                    >
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        image={relatedProduct.image}
-                        alt={relatedProduct.name}
-                        sx={{ objectFit: 'contain', p: 2 }}
-                      />
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography variant="subtitle1" fontWeight="bold" noWrap>
-                          {relatedProduct.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary" gutterBottom>
-                          {relatedProduct.brand}
-                        </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Rating value={relatedProduct.rating} precision={0.1} readOnly size="small" />
-                          <Typography variant="body2">({relatedProduct.rating})</Typography>
-                        </Box>
-                        <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
-                          ₹{relatedProduct.price.toLocaleString('en-IN')}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
+                  <Card 
+                    key={relatedProduct.id}
+                    component={Link} 
+                    to={`/product/${relatedProduct.id}`}
+                    sx={{ 
+                      textDecoration: 'none',
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      transition: 'transform 0.2s',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                      }
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image={relatedProduct.image}
+                      alt={relatedProduct.name}
+                      sx={{ objectFit: 'contain', p: 2 }}
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography variant="subtitle1" fontWeight="bold" noWrap>
+                        {relatedProduct.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" gutterBottom>
+                        {relatedProduct.brand}
+                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Rating value={relatedProduct.rating} precision={0.5} readOnly size="small" />
+                        <Typography variant="body2">({relatedProduct.rating})</Typography>
+                      </Box>
+                      <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
+                        ₹{relatedProduct.price.toLocaleString('en-IN')}
+                      </Typography>
+                    </CardContent>
+                  </Card>
                 ))}
-              </Grid>
+              </Box>
             </Box>
+          )}
+
+          {/* Bid Dialog */}
+          {product.isAuction && (
+            <Dialog 
+              open={bidDialogOpen} 
+              onClose={() => setBidDialogOpen(false)}
+              maxWidth="sm"
+              fullWidth
+            >
+              <DialogTitle sx={{ 
+                py: 2,
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1
+              }}>
+                Place Bid
+              </DialogTitle>
+              <DialogContent sx={{ pt: 3 }}>
+                <Box sx={{ 
+                  mb: 3,
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                  pb: 2
+                }}>
+                  <Typography variant="h6" gutterBottom sx={{ mt: 1 }}>
+                    {product.name}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <Rating value={product.rating} precision={0.5} readOnly size="small" />
+                    <Typography variant="body2" color="text.secondary">({product.rating})</Typography>
+                  </Box>
+                  <Typography variant="body2" color="text.secondary">
+                    Current Bid: ₹{product.auctionDetails.currentBid.toLocaleString('en-IN')}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Minimum Bid: ₹{product.auctionDetails.minimumBid.toLocaleString('en-IN')}
+                  </Typography>
+                </Box>
+
+                <TextField
+                  fullWidth
+                  label="Your Bid Amount"
+                  type="number"
+                  value={bidAmount}
+                  onChange={(e) => setBidAmount(e.target.value)}
+                  InputProps={{
+                    startAdornment: <Typography sx={{ mr: 1 }}>₹</Typography>,
+                  }}
+                  error={bidAmount && parseInt(bidAmount) < product.auctionDetails.minimumBid}
+                  helperText={bidAmount && parseInt(bidAmount) < product.auctionDetails.minimumBid ? 
+                    `Bid must be at least ₹${product.auctionDetails.minimumBid.toLocaleString('en-IN')}` : 
+                    ''}
+                  sx={{ mb: 2 }}
+                />
+
+                <Alert severity="info" sx={{ mb: 2 }}>
+                  By placing a bid, you agree to our Terms of Service and confirm that you have read our Auction Policy.
+                </Alert>
+              </DialogContent>
+              <DialogActions sx={{ 
+                p: 2, 
+                pt: 1, 
+                bgcolor: 'background.paper', 
+                borderTop: '1px solid', 
+                borderColor: 'divider',
+                gap: 1,
+              }}>
+                <Button 
+                  onClick={() => setBidDialogOpen(false)} 
+                  color="inherit"
+                  variant="outlined"
+                  sx={{mt: 1}}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handlePlaceBid} 
+                  variant="contained"
+                  color="primary"
+                  disabled={!bidAmount || parseInt(bidAmount) < product.auctionDetails.minimumBid}
+                  sx={{mt: 1}}
+                >
+                  Place Bid
+                </Button>
+              </DialogActions>
+            </Dialog>
+          )}
+
+          {/* Bid Placed Snackbar */}
+          {product.isAuction && (
+            <Snackbar 
+              open={bidPlaced} 
+              autoHideDuration={3000} 
+              onClose={() => setBidPlaced(false)}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+              <Alert onClose={() => setBidPlaced(false)} severity="success" sx={{ width: '100%' }}>
+                Your bid of ₹{bidAmount} has been placed successfully!
+              </Alert>
+            </Snackbar>
           )}
         </>
       )}
