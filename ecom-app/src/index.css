@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Reset margins and ensure full-width layout */
 body, #root {
   margin: 0;

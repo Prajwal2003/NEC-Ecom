@@ -269,7 +269,7 @@ const ProfilePage = () => {
                 <Button 
                   variant="outlined" 
                   fullWidth 
-                  onClick={() => navigate("/seller")}
+                  onClick={() => navigate("/main")}
                   sx={{ mt: 2 }}
                 >
                   Go to Seller Panel

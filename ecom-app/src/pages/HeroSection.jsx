@@ -30,6 +30,8 @@ import CategoryIcon from '@mui/icons-material/Category';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SecurityIcon from '@mui/icons-material/Security';
+import Navbar from "../components/Navbar";
+import Footer from '../components/Footer'
 
 // Color scheme with dark theme support
 const colors = {
@@ -224,10 +226,12 @@ const HeroSection = () => {
   };
 
   return (
+ 
     <Box sx={{ 
       width: "100%", 
       bgcolor: theme => theme.palette.mode === 'dark' ? colors.background.dark : colors.background.light 
     }}>
+         <Navbar />
       {/* Hero Banner Section */}
       <Box sx={{ 
         position: "relative", 
@@ -529,6 +533,7 @@ const HeroSection = () => {
           </Box>
         </Grow>
       </Container>
+            <Footer />
     </Box>
   );
 };

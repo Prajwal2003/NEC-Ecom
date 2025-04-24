@@ -14,6 +14,9 @@ import OrdersPage from "./pages/OrderSection";
 import Checkout from "./pages/Checkout";
 import PaymentGateway from "./pages/PaymentGateway";
 import Bids from "./pages/Bids";
+import Login from './Sellerside/Front-end/Login/Login'
+import Register from './Sellerside/Front-end/Signup/Signup'
+import Sellerprofile from './Sellerside/Front-end/Maindashboard'
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -29,14 +32,17 @@ const App = () => {
       <CssBaseline />
       <Router>
       <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <Box sx={{ mb: 5 }}>
-  <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      <Box sx={{ mb: 0 }}>
+  {/* <Navbar darkMode={darkMode} setDarkMode={setDarkMode} /> */}
 </Box>
 
 
   <Box sx={{ flexGrow: 1 }}>
     <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/" element={<HeroSection />} />
+      <Route path="/main" element={<Sellerprofile />} />
       <Route path="/products" element={<ProductListing />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/product/:id" element={<ProductDetail />} />
@@ -52,7 +58,7 @@ const App = () => {
     </Routes>
   </Box>
 
-  <Footer />
+  {/* <Footer /> */}
 </Box>
 
 
