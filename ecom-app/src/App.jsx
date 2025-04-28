@@ -19,9 +19,7 @@ import Register from './Sellerside/Front-end/Signup/Signup'
 import Sellerprofile from './Sellerside/Front-end/Maindashboard'
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true"
-  );
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
@@ -33,13 +31,12 @@ const App = () => {
       <Router>
       <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <Box sx={{ mb: 0 }}>
-  {/* <Navbar darkMode={darkMode} setDarkMode={setDarkMode} /> */}
-</Box>
+      </Box>
 
 
   <Box sx={{ flexGrow: 1 }}>
     <Routes>
-      <Route path="/login" element={<Login />} />
+      <Route path="/signin" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<HeroSection />} />
       <Route path="/main" element={<Sellerprofile />} />
@@ -58,7 +55,6 @@ const App = () => {
     </Routes>
   </Box>
 
-  {/* <Footer /> */}
 </Box>
 
 

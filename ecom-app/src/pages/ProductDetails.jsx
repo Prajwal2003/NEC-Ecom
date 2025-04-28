@@ -40,6 +40,8 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -202,968 +204,972 @@ const ProductDetails = () => {
   
 
   return (
-    <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: { xs: 2, md: 4 } }}>
-      {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
-          <CircularProgress />
-        </Box>
-      ) : !product ? (
-        <Box sx={{ textAlign: 'center', mt: 4 }}>
-          <Typography variant="h5" color="error">Product not found</Typography>
-        </Box>
-      ) : (
-        <>
-          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4 }}>
-            {/* Product Images */}
-            <Box sx={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
-              <Slider {...sliderSettings} style={{ width: "100%", maxWidth: 500 }}>
-                {product.images.map((image, index) => (
-                  <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
-                    <img
-                      src={image}
-                      alt={`Product ${index}`}
-                      style={{
-                        width: "100%",
-                        maxWidth: 500,
-                        height: "auto",
-                        objectFit: "contain",
-                        backgroundColor: "#f9f9f9",
-                        borderRadius: 10,
-                        padding: 10,
-                      }}
-                    />
-                  </Box>
-                ))}
-              </Slider>
-            </Box>
-
-            <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
-
-            {/* Product Details and Quick Info */}
-            <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
-              {/* Product Title and Basic Info */}
-              <Box>
-                <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
-                  {product.name}
-                </Typography>
-                <Typography variant="body1" color="text.secondary" sx={{ mt: 0 }}>
-                  {product.category} • {product.brand}
-                </Typography>
-
-                <Box sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: 1, 
-                  mt: 0,
-                }}>
-                  <Rating value={product.rating} precision={0.5} readOnly />
-                  <Typography variant="body2" color="text.secondary">
-                    ({product.rating} / 5)
-                  </Typography>
-                </Box>
-              </Box>
-
-              {/* Price Box */}
-              <Box sx={{ 
-                p: 0,
-                borderBottom: '1px solid',
-                borderColor: 'divider',
-                mt: -2,
-                mb: -3
-              }}>
-                {product.isAuction ? (
-                  <>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
-                      <Typography variant="h5" color="primary" fontWeight="bold">
-                        Current Bid: ₹{product.auctionDetails.currentBid.toLocaleString('en-IN')}
-                      </Typography>
-                      <Chip 
-                        label={`${product.auctionDetails.bids} bids`} 
-                        color="primary" 
-                        variant="outlined" 
-                        size="small"
+    <>
+      <Navbar sx={{ mb: '10px' }} />
+      <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: { xs: 2, md: 4 }, mt: '100px' }}>
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
+            <CircularProgress />
+          </Box>
+        ) : !product ? (
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <Typography variant="h5" color="error">Product not found</Typography>
+          </Box>
+        ) : (
+          <>
+            <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4 }}>
+              {/* Product Images */}
+              <Box sx={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
+                <Slider {...sliderSettings} style={{ width: "100%", maxWidth: 500 }}>
+                  {product.images.map((image, index) => (
+                    <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
+                      <img
+                        src={image}
+                        alt={`Product ${index}`}
+                        style={{
+                          width: "100%",
+                          maxWidth: 500,
+                          height: "auto",
+                          objectFit: "contain",
+                          backgroundColor: "#f9f9f9",
+                          borderRadius: 10,
+                          padding: 10,
+                        }}
                       />
                     </Box>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Minimum Bid: ₹{product.auctionDetails.minimumBid.toLocaleString('en-IN')}
-                    </Typography>
+                  ))}
+                </Slider>
+              </Box>
+
+              <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
+
+              {/* Product Details and Quick Info */}
+              <Box sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 3 }}>
+                {/* Product Title and Basic Info */}
+                <Box>
+                  <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { xs: '1.5rem', md: '2rem' } }}>
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary" sx={{ mt: 0 }}>
+                    {product.category} • {product.brand}
+                  </Typography>
+
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1, 
+                    mt: 0,
+                  }}>
+                    <Rating value={product.rating} precision={0.5} readOnly />
                     <Typography variant="body2" color="text.secondary">
-                      Time Left: {product.auctionDetails.timeLeft}
+                      ({product.rating} / 5)
                     </Typography>
-                  </>
-                ) : (
-                  <>
-                    <Typography variant="h5" color="primary" fontWeight="bold">
-                      ₹{product.price.toLocaleString('en-IN')}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                      Inclusive of all taxes
-                    </Typography>
-                  </>
-                )}
-              </Box>
+                  </Box>
+                </Box>
 
-              {/* Condensed Seller Info */}
-              {sellerDetails && (
+                {/* Price Box */}
                 <Box sx={{ 
-                  p: 1, 
+                  p: 0,
                   borderBottom: '1px solid',
-                  borderColor: 'divider'
+                  borderColor: 'divider',
+                  mt: -2,
+                  mb: -3
                 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2" fontWeight="medium">
-                        Sold by {sellerDetails.name}
+                  {product.isAuction ? (
+                    <>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 1 }}>
+                        <Typography variant="h5" color="primary" fontWeight="bold">
+                          Current Bid: ₹{product.auctionDetails.currentBid.toLocaleString('en-IN')}
+                        </Typography>
+                        <Chip 
+                          label={`${product.auctionDetails.bids} bids`} 
+                          color="primary" 
+                          variant="outlined" 
+                          size="small"
+                        />
+                      </Box>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        Minimum Bid: ₹{product.auctionDetails.minimumBid.toLocaleString('en-IN')}
                       </Typography>
-                      {sellerDetails.verificationStatus === "verified" && (
-                        <VerifiedIcon color="primary" sx={{ fontSize: 16 }} />
-                      )}
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                      <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
-                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                        ({sellerDetails.rating})
+                      <Typography variant="body2" color="text.secondary">
+                        Time Left: {product.auctionDetails.timeLeft}
                       </Typography>
-                    </Box>
-                  </Box>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <LocalShippingIcon color="action" sx={{ fontSize: 16 }} />
-                    <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
-                      Ships in {sellerDetails.shippingTime}
-                    </Typography>
-                  </Box>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="h5" color="primary" fontWeight="bold">
+                        ₹{product.price.toLocaleString('en-IN')}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        Inclusive of all taxes
+                      </Typography>
+                    </>
+                  )}
                 </Box>
-              )}
 
-              {/* Quick Info Box */}
-              <Box sx={{ 
-                p: 2, 
-                borderBottom: '1px solid',
-                borderColor: 'divider',
-                mt: -2,
-                mb: 1
-              }}>
-                <Typography variant="h6" fontWeight="bold" gutterBottom>
-                  Quick Info
-                </Typography>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">Brand:</Typography>
-                    <Typography variant="body2" fontWeight="medium">{product.brand}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">Category:</Typography>
-                    <Typography variant="body2" fontWeight="medium">{product.category}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">Seller:</Typography>
-                    <Typography variant="body2" fontWeight="medium">{product.seller.sellerName}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">Return Policy:</Typography>
-                    <Typography variant="body2" fontWeight="medium">{product.seller.returnPolicy}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="body2" color="text.secondary">Warranty:</Typography>
-                    <Typography variant="body2" fontWeight="medium">{product.seller.warranty}</Typography>
-                  </Box>
-                </Box>
-              </Box>
-
-              {/* Action Buttons */}
-              <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
-                {product.isAuction ? (
-                  <>
-                    <Button 
-                      variant="contained" 
-                      color="primary" 
-                      onClick={() => setBidDialogOpen(true)}
-                      sx={{ 
-                        flex: 1,
-                        py: 1.5,
-                        textTransform: 'none',
-                        fontSize: '1rem'
-                      }}
-                    >
-                      Bid for Auction
-                    </Button>
-                    <Button 
-                      variant="outlined" 
-                      color="secondary" 
-                      onClick={() => setWishlistDialogOpen(true)}
-                      sx={{ 
-                        flex: 1,
-                        py: 1.5,
-                        textTransform: 'none',
-                        fontSize: '1rem'
-                      }}
-                    >
-                      Add to Wishlist
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button 
-                      variant="contained" 
-                      color="primary" 
-                      onClick={() => setCartDialogOpen(true)}
-                      sx={{ 
-                        flex: 1,
-                        py: 1.5,
-                        textTransform: 'none',
-                        fontSize: '1rem'
-                      }}
-                    >
-                      Add to Cart
-                    </Button>
-                    <Button 
-                      variant="outlined" 
-                      color="secondary" 
-                      onClick={() => setWishlistDialogOpen(true)}
-                      sx={{ 
-                        flex: 1,
-                        py: 1.5,
-                        textTransform: 'none',
-                        fontSize: '1rem'
-                      }}
-                    >
-                      Add to Wishlist
-                    </Button>
-                  </>
-                )}
-              </Box>
-            </Box>
-          </Box>
-
-          {/* Detailed Information Accordions */}
-          <Box sx={{ mt: 4 }}>
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1" fontWeight="bold">Product Details</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Grid container spacing={3}>
-                  {/* Key Features */}
-                  <Grid item xs={12}>
-                    <Typography variant="h6" fontWeight="bold" gutterBottom>
-                      Key Features
-                    </Typography>
-                    <Grid container spacing={2}>
-                      {product.features.map((feature, index) => (
-                        <Grid item xs={12} sm={6} key={index}>
-                          <Box sx={{ 
-                            display: 'flex', 
-                            alignItems: 'flex-start', 
-                            gap: 1,
-                            p: 1.5,
-                            borderBottom: '1px solid',
-                            borderColor: 'divider',
-                          }}>
-                            <Typography variant="body1">• {feature}</Typography>
-                          </Box>
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1" fontWeight="bold">Description</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
-                  {product.description}
-                </Typography>
-              </AccordionDetails>
-            </Accordion>
-
-            <Accordion>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="subtitle1" fontWeight="bold">Seller Information</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
+                {/* Condensed Seller Info */}
                 {sellerDetails && (
-                  <Stack spacing={2}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Box sx={{ 
+                    p: 1, 
+                    borderBottom: '1px solid',
+                    borderColor: 'divider'
+                  }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Typography variant="subtitle1" fontWeight="medium">
-                          {sellerDetails.name}
+                        <Typography variant="body2" fontWeight="medium">
+                          Sold by {sellerDetails.name}
                         </Typography>
                         {sellerDetails.verificationStatus === "verified" && (
-                          <VerifiedIcon color="primary" sx={{ fontSize: 20 }} />
+                          <VerifiedIcon color="primary" sx={{ fontSize: 16 }} />
                         )}
                       </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                         <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
                           ({sellerDetails.rating})
                         </Typography>
                       </Box>
                     </Box>
-
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                      {sellerDetails.badges.map((badge, index) => (
-                        <Chip
-                          key={index}
-                          label={badge}
-                          size="small"
-                          color="primary"
-                          variant="outlined"
-                        />
-                      ))}
-                    </Box>
-
-                    <Grid container spacing={2}>
-                      <Grid item xs={12} sm={6}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <AccessTimeIcon color="action" sx={{ fontSize: 20 }} />
-                          <Typography variant="body2" color="text.secondary">
-                            {sellerDetails.businessHours}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <LocalShippingIcon color="action" sx={{ fontSize: 20 }} />
-                          <Typography variant="body2" color="text.secondary">
-                            Ships in {sellerDetails.shippingTime}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <LocationOnIcon color="action" sx={{ fontSize: 20 }} />
-                          <Typography variant="body2" color="text.secondary">
-                            {sellerDetails.location}
-                          </Typography>
-                        </Box>
-                      </Grid>
-                    </Grid>
-
-                    <Box sx={{ 
-                      mt: 1, 
-                      p: 1.5,
-                      borderBottom: '1px solid',
-                      borderColor: 'divider',
-                    }}>
-                      <Typography variant="body2" color="text.secondary" paragraph>
-                        {sellerDetails.description}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Response Time: {sellerDetails.customerSupport.responseTime}
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <LocalShippingIcon color="action" sx={{ fontSize: 16 }} />
+                      <Typography variant="body2" color="text.secondary" sx={{ fontSize: '0.75rem' }}>
+                        Ships in {sellerDetails.shippingTime}
                       </Typography>
                     </Box>
-
-                    <Box sx={{ 
-                      p: 1.5,
-                      borderBottom: '1px solid',
-                      borderColor: 'divider',
-                    }}>
-                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                        Contact Details
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Email: {sellerDetails.customerSupport.email}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Phone: {sellerDetails.customerSupport.phone}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                )}
-              </AccordionDetails>
-            </Accordion>
-          </Box>
-
-          {/* Reviews Section */}
-          <Box sx={{ mt: 4 }}>
-            <Accordion defaultExpanded>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Typography variant="subtitle1" fontWeight="bold">Customer Reviews</Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Rating value={product.rating} precision={0.1} readOnly size="small" />
-                    <Typography variant="body2" color="text.secondary">
-                      ({product.reviews?.length || 0} reviews)
-                    </Typography>
                   </Box>
-                </Box>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {product.reviews?.map((review) => (
-                    <Box key={review.id} sx={{ 
-                      position: 'relative',
-                      pb: 3,
-                      '&:not(:last-child)': {
-                        borderBottom: '1px solid',
-                        borderColor: 'divider',
-                      }
-                    }}>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                          <Avatar sx={{ bgcolor: 'primary.main' }}>
-                            {review.userName.charAt(0)}
-                          </Avatar>
-                          <Box>
-                            <Typography variant="subtitle1" fontWeight="bold">
-                              {review.userName}
-                              {review.verified && (
-                                <Chip
-                                  icon={<VerifiedIcon />}
-                                  label="Verified Purchase"
-                                  size="small"
-                                  color="primary"
-                                  sx={{ ml: 1 }}
-                                />
-                              )}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {new Date(review.date).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
-                              })}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Rating value={review.rating} readOnly size="small" />
-                      </Box>
-                      <Typography variant="h6" gutterBottom>
-                        {review.title}
-                      </Typography>
-                      <Typography variant="body1" color="text.secondary">
-                        {review.comment}
-                      </Typography>
-                    </Box>
-                  ))}
-                </Box>
-              </AccordionDetails>
-            </Accordion>
-          </Box>
+                )}
 
-          {/* Related Products */}
-          {relatedProducts.length > 0 && (
-            <Box sx={{ mt: 6 }}>
-              <Typography variant="h5" fontWeight="bold" gutterBottom>
-                Related Products
-              </Typography>
-              <Box sx={{ 
-                display: 'flex',
-                overflowX: 'auto',
-                gap: 3,
-                py: 2,
-                scrollbarWidth: 'none', // Firefox
-                '&::-webkit-scrollbar': { // Chrome, Safari, Edge
-                  display: 'none'
-                },
-                '& > *': {
-                  flex: '0 0 auto',
-                  minWidth: 280,
-                  maxWidth: 280
-                }
-              }}>
-                {relatedProducts.map((relatedProduct) => (
-                  <Card 
-                    key={relatedProduct.id}
-                    component={Link} 
-                    to={`/product/${relatedProduct.id}`}
-                    sx={{ 
-                      textDecoration: 'none',
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      transition: 'transform 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                      }
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image={relatedProduct.image}
-                      alt={relatedProduct.name}
-                      sx={{ objectFit: 'contain', p: 2 }}
-                    />
-                    <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography variant="subtitle1" fontWeight="bold" noWrap>
-                        {relatedProduct.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" gutterBottom>
-                        {relatedProduct.brand}
-                      </Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Rating value={relatedProduct.rating} precision={0.5} readOnly size="small" />
-                        <Typography variant="body2">({relatedProduct.rating})</Typography>
-                      </Box>
-                      <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
-                        ₹{relatedProduct.price.toLocaleString('en-IN')}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                ))}
-              </Box>
-            </Box>
-          )}
-
-          {/* Bid Dialog */}
-          {product.isAuction && (
-            <Dialog 
-              open={bidDialogOpen} 
-              onClose={() => setBidDialogOpen(false)}
-              maxWidth="sm"
-              fullWidth
-            >
-              <DialogTitle sx={{ 
-                py: 2,
-                borderBottom: '1px solid',
-                borderColor: 'divider',
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1
-              }}>
-                Place Bid
-              </DialogTitle>
-              <DialogContent sx={{ pt: 3 }}>
+                {/* Quick Info Box */}
                 <Box sx={{ 
-                  mb: 3,
+                  p: 2, 
                   borderBottom: '1px solid',
                   borderColor: 'divider',
-                  pb: 2
+                  mt: -2,
+                  mb: 1
                 }}>
-                  <Typography variant="h6" gutterBottom sx={{ mt: 1 }}>
-                    {product.name}
+                  <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    Quick Info
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                    <Rating value={product.rating} precision={0.5} readOnly size="small" />
-                    <Typography variant="body2" color="text.secondary">({product.rating})</Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" color="text.secondary">Brand:</Typography>
+                      <Typography variant="body2" fontWeight="medium">{product.brand}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" color="text.secondary">Category:</Typography>
+                      <Typography variant="body2" fontWeight="medium">{product.category}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" color="text.secondary">Seller:</Typography>
+                      <Typography variant="body2" fontWeight="medium">{product.seller.sellerName}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" color="text.secondary">Return Policy:</Typography>
+                      <Typography variant="body2" fontWeight="medium">{product.seller.returnPolicy}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" color="text.secondary">Warranty:</Typography>
+                      <Typography variant="body2" fontWeight="medium">{product.seller.warranty}</Typography>
+                    </Box>
                   </Box>
-                  <Typography variant="body2" color="text.secondary">
-                    Current Bid: ₹{product.auctionDetails.currentBid.toLocaleString('en-IN')}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Minimum Bid: ₹{product.auctionDetails.minimumBid.toLocaleString('en-IN')}
-                  </Typography>
                 </Box>
 
-                <TextField
-                  fullWidth
-                  label="Your Bid Amount"
-                  type="number"
-                  value={bidAmount}
-                  onChange={(e) => setBidAmount(e.target.value)}
-                  InputProps={{
-                    startAdornment: <Typography sx={{ mr: 1 }}>₹</Typography>,
-                  }}
-                  error={bidAmount && parseInt(bidAmount) < product.auctionDetails.minimumBid}
-                  helperText={bidAmount && parseInt(bidAmount) < product.auctionDetails.minimumBid ? 
-                    `Bid must be at least ₹${product.auctionDetails.minimumBid.toLocaleString('en-IN')}` : 
-                    ''}
-                  sx={{ mb: 2 }}
-                />
+                {/* Action Buttons */}
+                <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
+                  {product.isAuction ? (
+                    <>
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={() => setBidDialogOpen(true)}
+                        sx={{ 
+                          flex: 1,
+                          py: 1.5,
+                          textTransform: 'none',
+                          fontSize: '1rem'
+                        }}
+                      >
+                        Bid for Auction
+                      </Button>
+                      <Button 
+                        variant="outlined" 
+                        color="secondary" 
+                        onClick={() => setWishlistDialogOpen(true)}
+                        sx={{ 
+                          flex: 1,
+                          py: 1.5,
+                          textTransform: 'none',
+                          fontSize: '1rem'
+                        }}
+                      >
+                        Add to Wishlist
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button 
+                        variant="contained" 
+                        color="primary" 
+                        onClick={() => setCartDialogOpen(true)}
+                        sx={{ 
+                          flex: 1,
+                          py: 1.5,
+                          textTransform: 'none',
+                          fontSize: '1rem'
+                        }}
+                      >
+                        Add to Cart
+                      </Button>
+                      <Button 
+                        variant="outlined" 
+                        color="secondary" 
+                        onClick={() => setWishlistDialogOpen(true)}
+                        sx={{ 
+                          flex: 1,
+                          py: 1.5,
+                          textTransform: 'none',
+                          fontSize: '1rem'
+                        }}
+                      >
+                        Add to Wishlist
+                      </Button>
+                    </>
+                  )}
+                </Box>
+              </Box>
+            </Box>
 
-                <Alert severity="info" sx={{ mb: 2 }}>
-                  By placing a bid, you agree to our Terms of Service and confirm that you have read our Auction Policy.
+            {/* Detailed Information Accordions */}
+            <Box sx={{ mt: 4 }}>
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography variant="subtitle1" fontWeight="bold">Product Details</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={3}>
+                    {/* Key Features */}
+                    <Grid item xs={12}>
+                      <Typography variant="h6" fontWeight="bold" gutterBottom>
+                        Key Features
+                      </Typography>
+                      <Grid container spacing={2}>
+                        {product.features.map((feature, index) => (
+                          <Grid item xs={12} sm={6} key={index}>
+                            <Box sx={{ 
+                              display: 'flex', 
+                              alignItems: 'flex-start', 
+                              gap: 1,
+                              p: 1.5,
+                              borderBottom: '1px solid',
+                              borderColor: 'divider',
+                            }}>
+                              <Typography variant="body1">• {feature}</Typography>
+                            </Box>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
+
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography variant="subtitle1" fontWeight="bold">Description</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+                    {product.description}
+                  </Typography>
+                </AccordionDetails>
+              </Accordion>
+
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography variant="subtitle1" fontWeight="bold">Seller Information</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {sellerDetails && (
+                    <Stack spacing={2}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Typography variant="subtitle1" fontWeight="medium">
+                            {sellerDetails.name}
+                          </Typography>
+                          {sellerDetails.verificationStatus === "verified" && (
+                            <VerifiedIcon color="primary" sx={{ fontSize: 20 }} />
+                          )}
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
+                          <Typography variant="body2" color="text.secondary">
+                            ({sellerDetails.rating})
+                          </Typography>
+                        </Box>
+                      </Box>
+
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {sellerDetails.badges.map((badge, index) => (
+                          <Chip
+                            key={index}
+                            label={badge}
+                            size="small"
+                            color="primary"
+                            variant="outlined"
+                          />
+                        ))}
+                      </Box>
+
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <AccessTimeIcon color="action" sx={{ fontSize: 20 }} />
+                            <Typography variant="body2" color="text.secondary">
+                              {sellerDetails.businessHours}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <LocalShippingIcon color="action" sx={{ fontSize: 20 }} />
+                            <Typography variant="body2" color="text.secondary">
+                              Ships in {sellerDetails.shippingTime}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <LocationOnIcon color="action" sx={{ fontSize: 20 }} />
+                            <Typography variant="body2" color="text.secondary">
+                              {sellerDetails.location}
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+
+                      <Box sx={{ 
+                        mt: 1, 
+                        p: 1.5,
+                        borderBottom: '1px solid',
+                        borderColor: 'divider',
+                      }}>
+                        <Typography variant="body2" color="text.secondary" paragraph>
+                          {sellerDetails.description}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Response Time: {sellerDetails.customerSupport.responseTime}
+                        </Typography>
+                      </Box>
+
+                      <Box sx={{ 
+                        p: 1.5,
+                        borderBottom: '1px solid',
+                        borderColor: 'divider',
+                      }}>
+                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                          Contact Details
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Email: {sellerDetails.customerSupport.email}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Phone: {sellerDetails.customerSupport.phone}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+            </Box>
+
+            {/* Reviews Section */}
+            <Box sx={{ mt: 4 }}>
+              <Accordion defaultExpanded>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Typography variant="subtitle1" fontWeight="bold">Customer Reviews</Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Rating value={product.rating} precision={0.1} readOnly size="small" />
+                      <Typography variant="body2" color="text.secondary">
+                        ({product.reviews?.length || 0} reviews)
+                      </Typography>
+                    </Box>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                    {product.reviews?.map((review) => (
+                      <Box key={review.id} sx={{ 
+                        position: 'relative',
+                        pb: 3,
+                        '&:not(:last-child)': {
+                          borderBottom: '1px solid',
+                          borderColor: 'divider',
+                        }
+                      }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Avatar sx={{ bgcolor: 'primary.main' }}>
+                              {review.userName.charAt(0)}
+                            </Avatar>
+                            <Box>
+                              <Typography variant="subtitle1" fontWeight="bold">
+                                {review.userName}
+                                {review.verified && (
+                                  <Chip
+                                    icon={<VerifiedIcon />}
+                                    label="Verified Purchase"
+                                    size="small"
+                                    color="primary"
+                                    sx={{ ml: 1 }}
+                                  />
+                                )}
+                              </Typography>
+                              <Typography variant="body2" color="text.secondary">
+                                {new Date(review.date).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </Typography>
+                            </Box>
+                          </Box>
+                          <Rating value={review.rating} readOnly size="small" />
+                        </Box>
+                        <Typography variant="h6" gutterBottom>
+                          {review.title}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          {review.comment}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            </Box>
+
+            {/* Related Products */}
+            {relatedProducts.length > 0 && (
+              <Box sx={{ mt: 6 }}>
+                <Typography variant="h5" fontWeight="bold" gutterBottom>
+                  Related Products
+                </Typography>
+                <Box sx={{ 
+                  display: 'flex',
+                  overflowX: 'auto',
+                  gap: 3,
+                  py: 2,
+                  scrollbarWidth: 'none', // Firefox
+                  '&::-webkit-scrollbar': { // Chrome, Safari, Edge
+                    display: 'none'
+                  },
+                  '& > *': {
+                    flex: '0 0 auto',
+                    minWidth: 280,
+                    maxWidth: 280
+                  }
+                }}>
+                  {relatedProducts.map((relatedProduct) => (
+                    <Card 
+                      key={relatedProduct.id}
+                      component={Link} 
+                      to={`/product/${relatedProduct.id}`}
+                      sx={{ 
+                        textDecoration: 'none',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        transition: 'transform 0.2s',
+                        '&:hover': {
+                          transform: 'translateY(-4px)',
+                        }
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={relatedProduct.image}
+                        alt={relatedProduct.name}
+                        sx={{ objectFit: 'contain', p: 2 }}
+                      />
+                      <CardContent sx={{ flexGrow: 1 }}>
+                        <Typography variant="subtitle1" fontWeight="bold" noWrap>
+                          {relatedProduct.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                          {relatedProduct.brand}
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <Rating value={relatedProduct.rating} precision={0.5} readOnly size="small" />
+                          <Typography variant="body2">({relatedProduct.rating})</Typography>
+                        </Box>
+                        <Typography variant="h6" color="primary" sx={{ mt: 1 }}>
+                          ₹{relatedProduct.price.toLocaleString('en-IN')}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </Box>
+              </Box>
+            )}
+
+            {/* Bid Dialog */}
+            {product.isAuction && (
+              <Dialog 
+                open={bidDialogOpen} 
+                onClose={() => setBidDialogOpen(false)}
+                maxWidth="sm"
+                fullWidth
+              >
+                <DialogTitle sx={{ 
+                  py: 2,
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1
+                }}>
+                  Place Bid
+                </DialogTitle>
+                <DialogContent sx={{ pt: 3 }}>
+                  <Box sx={{ 
+                    mb: 3,
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
+                    pb: 2
+                  }}>
+                    <Typography variant="h6" gutterBottom sx={{ mt: 1 }}>
+                      {product.name}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                      <Rating value={product.rating} precision={0.5} readOnly size="small" />
+                      <Typography variant="body2" color="text.secondary">({product.rating})</Typography>
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      Current Bid: ₹{product.auctionDetails.currentBid.toLocaleString('en-IN')}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Minimum Bid: ₹{product.auctionDetails.minimumBid.toLocaleString('en-IN')}
+                    </Typography>
+                  </Box>
+
+                  <TextField
+                    fullWidth
+                    label="Your Bid Amount"
+                    type="number"
+                    value={bidAmount}
+                    onChange={(e) => setBidAmount(e.target.value)}
+                    InputProps={{
+                      startAdornment: <Typography sx={{ mr: 1 }}>₹</Typography>,
+                    }}
+                    error={bidAmount && parseInt(bidAmount) < product.auctionDetails.minimumBid}
+                    helperText={bidAmount && parseInt(bidAmount) < product.auctionDetails.minimumBid ? 
+                      `Bid must be at least ₹${product.auctionDetails.minimumBid.toLocaleString('en-IN')}` : 
+                      ''}
+                    sx={{ mb: 2 }}
+                  />
+
+                  <Alert severity="info" sx={{ mb: 2 }}>
+                    By placing a bid, you agree to our Terms of Service and confirm that you have read our Auction Policy.
+                  </Alert>
+                </DialogContent>
+                <DialogActions sx={{ 
+                  p: 2, 
+                  pt: 1, 
+                  bgcolor: 'background.paper', 
+                  borderTop: '1px solid', 
+                  borderColor: 'divider',
+                  gap: 1,
+                }}>
+                  <Button 
+                    onClick={() => setBidDialogOpen(false)} 
+                    color="inherit"
+                    variant="outlined"
+                    sx={{mt: 1}}
+                  >
+                    Cancel
+                  </Button>
+                  <Button 
+                    onClick={handlePlaceBid} 
+                    variant="contained"
+                    color="primary"
+                    disabled={!bidAmount || parseInt(bidAmount) < product.auctionDetails.minimumBid}
+                    sx={{mt: 1}}
+                  >
+                    Place Bid
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            )}
+
+            {/* Bid Placed Snackbar */}
+            {product.isAuction && (
+              <Snackbar 
+                open={bidPlaced} 
+                autoHideDuration={3000} 
+                onClose={() => setBidPlaced(false)}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+              >
+                <Alert onClose={() => setBidPlaced(false)} severity="success" sx={{ width: '100%' }}>
+                  Your bid of ₹{bidAmount} has been placed successfully!
                 </Alert>
-              </DialogContent>
-              <DialogActions sx={{ 
-                p: 2, 
-                pt: 1, 
-                bgcolor: 'background.paper', 
-                borderTop: '1px solid', 
-                borderColor: 'divider',
-                gap: 1,
-              }}>
-                <Button 
-                  onClick={() => setBidDialogOpen(false)} 
-                  color="inherit"
+              </Snackbar>
+            )}
+          </>
+        )}
+
+        {/* Cart Dialog */}
+        <Dialog 
+          open={cartDialogOpen} 
+          onClose={() => setCartDialogOpen(false)}
+          maxWidth="sm"
+          fullWidth
+        >
+          <DialogTitle sx={{ 
+            py: 2,
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
+          }}>
+            <ShoppingCartIcon />
+            Add to Cart
+          </DialogTitle>
+          <DialogContent sx={{ pt: 3 }}>
+            <Box sx={{ 
+              mb: 3,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              pb: 2
+            }}>
+              <Typography variant="h6" gutterBottom sx={{ mt: 1 }}>
+                {product?.name}
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                <Rating value={product?.rating} precision={0.1} readOnly size="small" />
+                <Typography variant="body2" color="text.secondary">({product?.rating})</Typography>
+              </Box>
+              <Typography variant="h6" color="primary.main">
+                ₹{product?.price.toLocaleString('en-IN')}
+              </Typography>
+            </Box>
+
+            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+              Select Cart
+            </Typography>
+            <Box sx={{ 
+              maxHeight: 200, 
+              overflow: 'auto',
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              pb: 2,
+              mb: 2
+            }}>
+              {Object.keys(carts).length > 0 ? (
+                Object.keys(carts).map((cartName) => (
+                  <FormControlLabel
+                    key={cartName}
+                    control={
+                      <Checkbox 
+                        checked={selectedCart === cartName} 
+                        onChange={() => setSelectedCart(cartName)}
+                        color="primary"
+                      />
+                    }
+                    label={
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                        <Typography color="text.primary">{cartName}</Typography>
+                        <Typography color="text.secondary">
+                          {carts[cartName]?.length || 0} items
+                        </Typography>
+                      </Box>
+                    }
+                    sx={{ 
+                      width: '100%', 
+                      m: 0.5,
+                      p: 1,
+                      borderRadius: 1,
+                      '&:hover': {
+                        bgcolor: 'action.hover'
+                      }
+                    }}
+                  />
+                ))
+              ) : (
+                <Typography variant="body2" color="text.secondary" sx={{ p: 2, textAlign: 'center' }}>
+                  No carts available. Create a new one below.
+                </Typography>
+              )}
+            </Box>
+
+            <Box sx={{ 
+              mb: 3,
+              p: 2,
+              bgcolor: 'background.default',
+              borderRadius: 1,
+              border: '1px solid',
+              borderColor: 'divider'
+            }}>
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
+                Create New Cart
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <TextField
+                  label="Cart Name"
+                  fullWidth
                   variant="outlined"
-                  sx={{mt: 1}}
-                >
-                  Cancel
-                </Button>
+                  value={newCartName}
+                  onChange={(e) => setNewCartName(e.target.value)}
+                  size="small"
+                />
                 <Button 
-                  onClick={handlePlaceBid} 
+                  onClick={createNewCart} 
                   variant="contained"
                   color="primary"
-                  disabled={!bidAmount || parseInt(bidAmount) < product.auctionDetails.minimumBid}
-                  sx={{mt: 1}}
+                  disabled={!newCartName.trim()}
                 >
-                  Place Bid
+                  Create
                 </Button>
-              </DialogActions>
-            </Dialog>
-          )}
-
-          {/* Bid Placed Snackbar */}
-          {product.isAuction && (
-            <Snackbar 
-              open={bidPlaced} 
-              autoHideDuration={3000} 
-              onClose={() => setBidPlaced(false)}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            >
-              <Alert onClose={() => setBidPlaced(false)} severity="success" sx={{ width: '100%' }}>
-                Your bid of ₹{bidAmount} has been placed successfully!
-              </Alert>
-            </Snackbar>
-          )}
-        </>
-      )}
-
-      {/* Cart Dialog */}
-      <Dialog 
-        open={cartDialogOpen} 
-        onClose={() => setCartDialogOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle sx={{ 
-          py: 2,
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1
-        }}>
-          <ShoppingCartIcon />
-          Add to Cart
-        </DialogTitle>
-        <DialogContent sx={{ pt: 3 }}>
-          <Box sx={{ 
-            mb: 3,
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-            pb: 2
-          }}>
-            <Typography variant="h6" gutterBottom sx={{ mt: 1 }}>
-              {product?.name}
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <Rating value={product?.rating} precision={0.1} readOnly size="small" />
-              <Typography variant="body2" color="text.secondary">({product?.rating})</Typography>
+              </Box>
             </Box>
-            <Typography variant="h6" color="primary.main">
-              ₹{product?.price.toLocaleString('en-IN')}
-            </Typography>
-          </Box>
 
-          <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-            Select Cart
-          </Typography>
-          <Box sx={{ 
-            maxHeight: 200, 
-            overflow: 'auto',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-            pb: 2,
-            mb: 2
-          }}>
-            {Object.keys(carts).length > 0 ? (
-              Object.keys(carts).map((cartName) => (
-                <FormControlLabel
-                  key={cartName}
-                  control={
-                    <Checkbox 
-                      checked={selectedCart === cartName} 
-                      onChange={() => setSelectedCart(cartName)}
-                      color="primary"
-                    />
-                  }
-                  label={
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                      <Typography color="text.primary">{cartName}</Typography>
-                      <Typography color="text.secondary">
-                        {carts[cartName]?.length || 0} items
-                      </Typography>
-                    </Box>
-                  }
-                  sx={{ 
-                    width: '100%', 
-                    m: 0.5,
-                    p: 1,
-                    borderRadius: 1,
-                    '&:hover': {
-                      bgcolor: 'action.hover'
-                    }
-                  }}
-                />
-              ))
-            ) : (
-              <Typography variant="body2" color="text.secondary" sx={{ p: 2, textAlign: 'center' }}>
-                No carts available. Create a new one below.
+            <Box sx={{ 
+              mb: 2,
+              p: 2,
+              bgcolor: 'background.default',
+              borderRadius: 1,
+              border: '1px solid',
+              borderColor: 'divider'
+            }}>
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
+                Quantity
               </Typography>
-            )}
-          </Box>
-
-          <Box sx={{ 
-            mb: 3,
-            p: 2,
-            bgcolor: 'background.default',
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider'
-          }}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
-              Create New Cart
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <TextField
-                label="Cart Name"
+              <Select 
+                value={quantity} 
+                onChange={(e) => setQuantity(e.target.value)} 
                 fullWidth
-                variant="outlined"
-                value={newCartName}
-                onChange={(e) => setNewCartName(e.target.value)}
                 size="small"
-              />
-              <Button 
-                onClick={createNewCart} 
-                variant="contained"
-                color="primary"
-                disabled={!newCartName.trim()}
               >
-                Create
-              </Button>
+                {[...Array(10)].map((_, i) => (
+                  <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>
+                ))}
+              </Select>
             </Box>
-          </Box>
-
-          <Box sx={{ 
-            mb: 2,
-            p: 2,
-            bgcolor: 'background.default',
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider'
+          </DialogContent>
+          <DialogActions sx={{ 
+            p: 2, 
+            pt: 0, 
+            bgcolor: 'background.paper', 
+            borderTop: '1px solid', 
+            borderColor: 'divider',
+            gap: 1
           }}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
-              Quantity
-            </Typography>
-            <Select 
-              value={quantity} 
-              onChange={(e) => setQuantity(e.target.value)} 
-              fullWidth
-              size="small"
+            <Button 
+              onClick={() => setCartDialogOpen(false)} 
+              color="inherit"
+              variant="outlined"
+              sx={{mt: 1}}
             >
-              {[...Array(10)].map((_, i) => (
-                <MenuItem key={i + 1} value={i + 1}>{i + 1}</MenuItem>
-              ))}
-            </Select>
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ 
-          p: 2, 
-          pt: 0, 
-          bgcolor: 'background.paper', 
-          borderTop: '1px solid', 
-          borderColor: 'divider',
-          gap: 1
-        }}>
-          <Button 
-            onClick={() => setCartDialogOpen(false)} 
-            color="inherit"
-            variant="outlined"
-            sx={{mt: 1}}
-          >
-            Cancel
-          </Button>
-          <Button 
-            onClick={addToSelectedCart} 
-            variant="contained"
-            color="primary"
-            disabled={!selectedCart}
-            sx={{mt: 1}}
-          >
-            Add to Cart
-          </Button>
-        </DialogActions>
-      </Dialog>
+              Cancel
+            </Button>
+            <Button 
+              onClick={addToSelectedCart} 
+              variant="contained"
+              color="primary"
+              disabled={!selectedCart}
+              sx={{mt: 1}}
+            >
+              Add to Cart
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* Wishlist Dialog */}
-      <Dialog 
-        open={wishlistDialogOpen} 
-        onClose={() => setWishlistDialogOpen(false)}
-        maxWidth="sm"
-        fullWidth
-      >
-        <DialogTitle sx={{ 
-          py: 2,
-          borderBottom: '1px solid',
-          borderColor: 'divider',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1
-        }}>
-          <FavoriteIcon />
-          Add to Wishlist
-        </DialogTitle>
-        <DialogContent sx={{ pt: 3 }}>
-          <Box sx={{ 
-            mb: 3,
+        {/* Wishlist Dialog */}
+        <Dialog 
+          open={wishlistDialogOpen} 
+          onClose={() => setWishlistDialogOpen(false)}
+          maxWidth="sm"
+          fullWidth
+        >
+          <DialogTitle sx={{ 
+            py: 2,
             borderBottom: '1px solid',
             borderColor: 'divider',
-            pb: 2
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
           }}>
-            <Typography variant="h6" gutterBottom sx={{mt: 1}}>
-              {product?.name}
-            </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-              <Rating value={product?.rating} precision={0.1} readOnly size="small" />
-              <Typography variant="body2" color="text.secondary">({product?.rating})</Typography>
-            </Box>
-            <Typography variant="h6" color="primary.main">
-              ₹{product?.price.toLocaleString('en-IN')}
-            </Typography>
-          </Box>
-
-          <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
-            Select Wishlists
-          </Typography>
-          <Box sx={{ 
-            maxHeight: 200, 
-            overflow: 'auto',
-            borderBottom: '1px solid',
-            borderColor: 'divider',
-            pb: 2,
-            mb: 2
-          }}>
-            {Object.keys(wishlists).length > 0 ? (
-              Object.keys(wishlists).map((wishlistName) => (
-                <FormControlLabel
-                  key={wishlistName}
-                  control={
-                    <Checkbox
-                      checked={selectedWishlists.includes(wishlistName)}
-                      onChange={() =>
-                        setSelectedWishlists((prev) =>
-                          prev.includes(wishlistName)
-                            ? prev.filter((name) => name !== wishlistName)
-                            : [...prev, wishlistName]
-                        )
-                      }
-                      color="secondary"
-                    />
-                  }
-                  label={
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                      <Typography color="text.primary">{wishlistName}</Typography>
-                      <Typography color="text.secondary">
-                        {wishlists[wishlistName]?.length || 0} items
-                      </Typography>
-                    </Box>
-                  }
-                  sx={{ 
-                    width: '100%', 
-                    m: 0.5,
-                    p: 1,
-                    borderRadius: 1,
-                    '&:hover': {
-                      bgcolor: 'action.hover'
-                    }
-                  }}
-                />
-              ))
-            ) : (
-              <Typography variant="body2" color="text.secondary" sx={{ p: 2, textAlign: 'center' }}>
-                No wishlists available. Create a new one below.
-              </Typography>
-            )}
-          </Box>
-
-          <Box sx={{ 
-            mb: 2,
-            p: 2,
-            bgcolor: 'background.default',
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider'
-          }}>
-            <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
-              Create New Wishlist
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <TextField
-                label="Wishlist Name"
-                fullWidth
-                variant="outlined"
-                value={newWishlistName}
-                onChange={(e) => setNewWishlistName(e.target.value)}
-                size="small"
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': { borderColor: 'divider' },
-                    '&:hover fieldset': { borderColor: 'secondary.main' },
-                    '&.Mui-focused fieldset': { borderColor: 'secondary.main' }
-                  }
-                }}
-              />
-              <Button 
-                onClick={createNewWishlist} 
-                variant="contained"
-                color="secondary"
-                disabled={!newWishlistName.trim()}
-                sx={{
-                  bgcolor: 'secondary.main',
-                  '&:hover': {
-                    bgcolor: 'secondary.dark'
-                  }
-                }}
-              >
-                Create
-              </Button>
-            </Box>
-          </Box>
-        </DialogContent>
-        <DialogActions sx={{ 
-          p: 2, 
-          pt: 1, 
-          bgcolor: 'background.paper', 
-          borderTop: '1px solid', 
-          borderColor: 'divider',
-          gap: 1,
-        }}>
-          <Button 
-            onClick={() => setWishlistDialogOpen(false)} 
-            color="inherit"
-            variant="outlined"
-            sx={{
-              borderColor: 'divider',
-              color: 'text.primary',
-              '&:hover': {
-                borderColor: 'secondary.main',
-                bgcolor: 'action.hover',
-              }
-            }}
-          >
-            Cancel
-          </Button>
-          <Button 
-            onClick={addToSelectedWishlists} 
-            variant="contained"
-            color="secondary"
-            disabled={selectedWishlists.length === 0}
-            sx={{
-              bgcolor: 'secondary.main',
-              '&:hover': {
-                bgcolor: 'secondary.dark',
-              }
-            }}
-          >
+            <FavoriteIcon />
             Add to Wishlist
-          </Button>
-        </DialogActions>
-      </Dialog>
+          </DialogTitle>
+          <DialogContent sx={{ pt: 3 }}>
+            <Box sx={{ 
+              mb: 3,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              pb: 2
+            }}>
+              <Typography variant="h6" gutterBottom sx={{mt: 1}}>
+                {product?.name}
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                <Rating value={product?.rating} precision={0.1} readOnly size="small" />
+                <Typography variant="body2" color="text.secondary">({product?.rating})</Typography>
+              </Box>
+              <Typography variant="h6" color="primary.main">
+                ₹{product?.price.toLocaleString('en-IN')}
+              </Typography>
+            </Box>
 
-      <Snackbar 
-        open={cartUpdated} 
-        autoHideDuration={2000} 
-        onClose={() => setCartUpdated(false)} 
-        message="Item added to cart!" 
-      />
-    </Box>
+            <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+              Select Wishlists
+            </Typography>
+            <Box sx={{ 
+              maxHeight: 200, 
+              overflow: 'auto',
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+              pb: 2,
+              mb: 2
+            }}>
+              {Object.keys(wishlists).length > 0 ? (
+                Object.keys(wishlists).map((wishlistName) => (
+                  <FormControlLabel
+                    key={wishlistName}
+                    control={
+                      <Checkbox
+                        checked={selectedWishlists.includes(wishlistName)}
+                        onChange={() =>
+                          setSelectedWishlists((prev) =>
+                            prev.includes(wishlistName)
+                              ? prev.filter((name) => name !== wishlistName)
+                              : [...prev, wishlistName]
+                          )
+                        }
+                        color="secondary"
+                      />
+                    }
+                    label={
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                        <Typography color="text.primary">{wishlistName}</Typography>
+                        <Typography color="text.secondary">
+                          {wishlists[wishlistName]?.length || 0} items
+                        </Typography>
+                      </Box>
+                    }
+                    sx={{ 
+                      width: '100%', 
+                      m: 0.5,
+                      p: 1,
+                      borderRadius: 1,
+                      '&:hover': {
+                        bgcolor: 'action.hover'
+                      }
+                    }}
+                  />
+                ))
+              ) : (
+                <Typography variant="body2" color="text.secondary" sx={{ p: 2, textAlign: 'center' }}>
+                  No wishlists available. Create a new one below.
+                </Typography>
+              )}
+            </Box>
+
+            <Box sx={{ 
+              mb: 2,
+              p: 2,
+              bgcolor: 'background.default',
+              borderRadius: 1,
+              border: '1px solid',
+              borderColor: 'divider'
+            }}>
+              <Typography variant="subtitle1" fontWeight="bold" gutterBottom color="text.primary">
+                Create New Wishlist
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <TextField
+                  label="Wishlist Name"
+                  fullWidth
+                  variant="outlined"
+                  value={newWishlistName}
+                  onChange={(e) => setNewWishlistName(e.target.value)}
+                  size="small"
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': { borderColor: 'divider' },
+                      '&:hover fieldset': { borderColor: 'secondary.main' },
+                      '&.Mui-focused fieldset': { borderColor: 'secondary.main' }
+                    }
+                  }}
+                />
+                <Button 
+                  onClick={createNewWishlist} 
+                  variant="contained"
+                  color="secondary"
+                  disabled={!newWishlistName.trim()}
+                  sx={{
+                    bgcolor: 'secondary.main',
+                    '&:hover': {
+                      bgcolor: 'secondary.dark'
+                    }
+                  }}
+                >
+                  Create
+                </Button>
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ 
+            p: 2, 
+            pt: 1, 
+            bgcolor: 'background.paper', 
+            borderTop: '1px solid', 
+            borderColor: 'divider',
+            gap: 1,
+          }}>
+            <Button 
+              onClick={() => setWishlistDialogOpen(false)} 
+              color="inherit"
+              variant="outlined"
+              sx={{
+                borderColor: 'divider',
+                color: 'text.primary',
+                '&:hover': {
+                  borderColor: 'secondary.main',
+                  bgcolor: 'action.hover',
+                }
+              }}
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={addToSelectedWishlists} 
+              variant="contained"
+              color="secondary"
+              disabled={selectedWishlists.length === 0}
+              sx={{
+                bgcolor: 'secondary.main',
+                '&:hover': {
+                  bgcolor: 'secondary.dark',
+                }
+              }}
+            >
+              Add to Wishlist
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        <Snackbar 
+          open={cartUpdated} 
+          autoHideDuration={2000} 
+          onClose={() => setCartUpdated(false)} 
+          message="Item added to cart!" 
+        />
+      </Box>
+      <Footer />
+    </>
   );
 };
 
