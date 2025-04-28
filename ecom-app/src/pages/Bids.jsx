@@ -215,7 +215,7 @@ const Bids = () => {
 
   return (
     <>
-      <Navbar sx={{ mb: '1px' }} />
+      <Navbar sx={{ mb: '10px' }} />
       <Box sx={{ width: '100%', p: { xs: 2, md: 4 }, mt: '100px' }}>
         <Box sx={{ 
           display: 'flex', 
