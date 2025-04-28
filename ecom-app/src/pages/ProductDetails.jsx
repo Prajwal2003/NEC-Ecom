@@ -28,6 +28,7 @@ import {
   Chip,
   Stack,
   Alert,
+  Paper,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Slider from "react-slick";
@@ -40,6 +41,7 @@ import StorefrontIcon from "@mui/icons-material/Storefront";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -206,7 +208,7 @@ const ProductDetails = () => {
   return (
     <>
       <Navbar sx={{ mb: '10px' }} />
-      <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: { xs: 2, md: 4 }, mt: '100px' }}>
+      <Box component={Paper} elevation={0} sx={{ width: '100%', padding: { xs: 2, sm: 4, md: 8, lg: 12 }, bgcolor: 'background.paper', borderRadius: { xs: 0, md: 3 } }}>
         {loading ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' }}>
             <CircularProgress />
@@ -220,25 +222,31 @@ const ProductDetails = () => {
             <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4 }}>
               {/* Product Images */}
               <Box sx={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-start" }}>
-                <Slider {...sliderSettings} style={{ width: "100%", maxWidth: 500 }}>
-                  {product.images.map((image, index) => (
-                    <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
-                      <img
-                        src={image}
-                        alt={`Product ${index}`}
-                        style={{
-                          width: "100%",
-                          maxWidth: 500,
-                          height: "auto",
-                          objectFit: "contain",
-                          backgroundColor: "#f9f9f9",
-                          borderRadius: 10,
-                          padding: 10,
-                        }}
-                      />
-                    </Box>
-                  ))}
-                </Slider>
+                {product.images && product.images.length > 0 ? (
+                  <Slider {...sliderSettings} style={{ width: "100%", maxWidth: 500 }}>
+                    {product.images.map((image, index) => (
+                      <Box key={index} sx={{ display: "flex", justifyContent: "center" }}>
+                        <img
+                          src={image}
+                          alt={`Product ${index}`}
+                          style={{
+                            width: "100%",
+                            maxWidth: 500,
+                            height: "auto",
+                            objectFit: "contain",
+                            backgroundColor: "#f9f9f9",
+                            borderRadius: 10,
+                            padding: 10,
+                          }}
+                        />
+                      </Box>
+                    ))}
+                  </Slider>
+                ) : (
+                  <Box sx={{ width: '100%', maxWidth: 500, aspectRatio: '1/1', minHeight: { xs: 220, sm: 320 }, display: 'flex', justifyContent: 'center', alignItems: 'center', bgcolor: '#f9f9f9', borderRadius: 2 }}>
+                    <Typography variant="body1" color="text.secondary">No images available</Typography>
+                  </Box>
+                )}
               </Box>
 
               <Divider orientation="vertical" flexItem sx={{ display: { xs: "none", md: "block" } }} />
@@ -440,213 +448,221 @@ const ProductDetails = () => {
             </Box>
 
             {/* Detailed Information Accordions */}
-            <Box sx={{ mt: 4 }}>
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1" fontWeight="bold">Product Details</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container spacing={3}>
-                    {/* Key Features */}
-                    <Grid item xs={12}>
-                      <Typography variant="h6" fontWeight="bold" gutterBottom>
-                        Key Features
-                      </Typography>
-                      <Grid container spacing={2}>
-                        {product.features.map((feature, index) => (
-                          <Grid item xs={12} sm={6} key={index}>
-                            <Box sx={{ 
-                              display: 'flex', 
-                              alignItems: 'flex-start', 
-                              gap: 1,
-                              p: 1.5,
-                              borderBottom: '1px solid',
-                              borderColor: 'divider',
-                            }}>
-                              <Typography variant="body1">• {feature}</Typography>
-                            </Box>
-                          </Grid>
-                        ))}
+            <Box sx={{ mt: 4, display: 'flex', flexDirection: 'column', gap: { xs: 4, md: 7 } }}>
+              {/* Product Details (Key Features) */}
+              <Box>
+                <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 2 }}>
+                  Key Features
+                </Typography>
+                <Grid container spacing={2}>
+                  {product.features.map((feature, index) => (
+                    <Grid item xs={12} sm={6} key={index}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1, pl: 1 }}>
+                        <CheckCircleOutlineIcon color="success" fontSize="small" sx={{ mr: 1 }} />
+                        <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>{feature}</Typography>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+              <Divider sx={{ my: 3, bgcolor: 'divider', opacity: 0.5 }} />
+
+              {/* Description */}
+              <Box>
+                <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 2 }}>
+                  Description
+                </Typography>
+                <Typography variant="body1" sx={{ whiteSpace: 'pre-line', fontSize: '1.1rem' }}>
+                  {product.description}
+                </Typography>
+              </Box>
+              <Divider sx={{ my: 3, bgcolor: 'divider', opacity: 0.5 }} />
+
+              {/* Seller Information */}
+              {sellerDetails && (
+                <Box>
+                  <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 2 }}>
+                    Seller Information
+                  </Typography>
+                  <Stack spacing={2}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography variant="h6" fontWeight="medium">
+                          {sellerDetails.name}
+                        </Typography>
+                        {sellerDetails.verificationStatus === "verified" && (
+                          <VerifiedIcon color="primary" sx={{ fontSize: 20 }} />
+                        )}
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
+                        <Typography variant="body2" color="text.secondary">
+                          ({sellerDetails.rating})
+                        </Typography>
+                      </Box>
+                    </Box>
+
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {sellerDetails.badges.map((badge, index) => (
+                        <Chip
+                          key={index}
+                          label={badge}
+                          size="small"
+                          color="primary"
+                          variant="outlined"
+                          sx={{
+                            transition: 'background 0.2s',
+                            cursor: 'pointer',
+                            '&:hover': {
+                              bgcolor: 'primary.light',
+                              color: 'white',
+                            },
+                          }}
+                        />
+                      ))}
+                    </Box>
+
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} sm={6}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <AccessTimeIcon color="action" sx={{ fontSize: 20 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            {sellerDetails.businessHours}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <LocalShippingIcon color="action" sx={{ fontSize: 20 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            Ships in {sellerDetails.shippingTime}
+                          </Typography>
+                        </Box>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                          <LocationOnIcon color="action" sx={{ fontSize: 20 }} />
+                          <Typography variant="body2" color="text.secondary">
+                            {sellerDetails.location}
+                          </Typography>
+                        </Box>
                       </Grid>
                     </Grid>
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
 
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1" fontWeight="bold">Description</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
-                    {product.description}
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1" fontWeight="bold">Seller Information</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {sellerDetails && (
-                    <Stack spacing={2}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Typography variant="subtitle1" fontWeight="medium">
-                            {sellerDetails.name}
-                          </Typography>
-                          {sellerDetails.verificationStatus === "verified" && (
-                            <VerifiedIcon color="primary" sx={{ fontSize: 20 }} />
-                          )}
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <Rating value={sellerDetails.rating} precision={0.1} readOnly size="small" />
-                          <Typography variant="body2" color="text.secondary">
-                            ({sellerDetails.rating})
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {sellerDetails.badges.map((badge, index) => (
-                          <Chip
-                            key={index}
-                            label={badge}
-                            size="small"
-                            color="primary"
-                            variant="outlined"
-                          />
-                        ))}
-                      </Box>
-
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <AccessTimeIcon color="action" sx={{ fontSize: 20 }} />
-                            <Typography variant="body2" color="text.secondary">
-                              {sellerDetails.businessHours}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <LocalShippingIcon color="action" sx={{ fontSize: 20 }} />
-                            <Typography variant="body2" color="text.secondary">
-                              Ships in {sellerDetails.shippingTime}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            <LocationOnIcon color="action" sx={{ fontSize: 20 }} />
-                            <Typography variant="body2" color="text.secondary">
-                              {sellerDetails.location}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                      </Grid>
-
-                      <Box sx={{ 
-                        mt: 1, 
-                        p: 1.5,
-                        borderBottom: '1px solid',
-                        borderColor: 'divider',
-                      }}>
-                        <Typography variant="body2" color="text.secondary" paragraph>
-                          {sellerDetails.description}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Response Time: {sellerDetails.customerSupport.responseTime}
-                        </Typography>
-                      </Box>
-
-                      <Box sx={{ 
-                        p: 1.5,
-                        borderBottom: '1px solid',
-                        borderColor: 'divider',
-                      }}>
-                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                          Contact Details
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Email: {sellerDetails.customerSupport.email}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Phone: {sellerDetails.customerSupport.phone}
-                        </Typography>
-                      </Box>
-                    </Stack>
-                  )}
-                </AccordionDetails>
-              </Accordion>
-            </Box>
-
-            {/* Reviews Section */}
-            <Box sx={{ mt: 4 }}>
-              <Accordion defaultExpanded>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <Typography variant="subtitle1" fontWeight="bold">Customer Reviews</Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Rating value={product.rating} precision={0.1} readOnly size="small" />
+                    <Box sx={{ mt: 1 }}>
+                      <Typography variant="body2" color="text.secondary" paragraph>
+                        {sellerDetails.description}
+                      </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        ({product.reviews?.length || 0} reviews)
+                        Response Time: {sellerDetails.customerSupport.responseTime}
                       </Typography>
                     </Box>
-                  </Box>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                    {product.reviews?.map((review) => (
-                      <Box key={review.id} sx={{ 
-                        position: 'relative',
-                        pb: 3,
-                        '&:not(:last-child)': {
-                          borderBottom: '1px solid',
-                          borderColor: 'divider',
-                        }
-                      }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                            <Avatar sx={{ bgcolor: 'primary.main' }}>
-                              {review.userName.charAt(0)}
-                            </Avatar>
-                            <Box>
-                              <Typography variant="subtitle1" fontWeight="bold">
-                                {review.userName}
-                                {review.verified && (
-                                  <Chip
-                                    icon={<VerifiedIcon />}
-                                    label="Verified Purchase"
-                                    size="small"
-                                    color="primary"
-                                    sx={{ ml: 1 }}
-                                  />
-                                )}
-                              </Typography>
-                              <Typography variant="body2" color="text.secondary">
-                                {new Date(review.date).toLocaleDateString('en-US', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric'
-                                })}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Rating value={review.rating} readOnly size="small" />
-                        </Box>
-                        <Typography variant="h6" gutterBottom>
-                          {review.title}
+
+                    <Box>
+                      <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                        Contact Details
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Email: {sellerDetails.customerSupport.email}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Phone: {sellerDetails.customerSupport.phone}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Box>
+              )}
+              {sellerDetails && <Divider sx={{ my: 3, bgcolor: 'divider', opacity: 0.5 }} />}
+
+              {/* FAQ Section */}
+              {product.faqs && product.faqs.length > 0 && (
+                <Box>
+                  <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ mb: 2 }}>
+                    Frequently Asked Questions
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    {product.faqs.map((faq, idx) => (
+                      <Box key={idx} sx={{ mb: 1 }}>
+                        <Typography variant="subtitle1" fontWeight="medium" sx={{ mb: 0.5 }}>
+                          Q{idx + 1}. {faq.question}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                          {review.comment}
+                        <Typography variant="body2" color="text.secondary">
+                          {faq.answer}
                         </Typography>
                       </Box>
                     ))}
                   </Box>
-                </AccordionDetails>
-              </Accordion>
+                </Box>
+              )}
+              {product.faqs && product.faqs.length > 0 && <Divider sx={{ my: 3, bgcolor: 'divider', opacity: 0.5 }} />}
+
+              {/* Reviews Section */}
+              <Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
+                  <Typography variant="h5" fontWeight="bold">Customer Reviews</Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Rating value={product.rating} precision={0.1} readOnly size="small" />
+                    <Typography variant="body2" color="text.secondary">
+                      ({product.reviews?.length || 0} reviews)
+                    </Typography>
+                  </Box>
+                  {/* Review summary */}
+                  <Typography variant="subtitle1" color="text.secondary" sx={{ ml: 2 }}>
+                    {product.rating} out of 5, {product.reviews?.length || 0} reviews
+                  </Typography>
+                  <Button variant="outlined" color="primary" sx={{ ml: 'auto', textTransform: 'none', fontWeight: 500 }}>
+                    Write a Review
+                  </Button>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                  {product.reviews?.map((review, idx) => (
+                    <Box key={review.id} sx={{
+                      position: 'relative',
+                      pb: 3,
+                      bgcolor: idx % 2 === 0 ? 'background.default' : 'grey.50',
+                      borderRadius: 2,
+                      px: 2,
+                      pt: 2,
+                    }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            {review.userName.charAt(0)}
+                          </Avatar>
+                          <Box>
+                            <Typography variant="subtitle1" fontWeight="bold">
+                              {review.userName}
+                              {review.verified && (
+                                <Chip
+                                  icon={<VerifiedIcon />}
+                                  label="Verified Purchase"
+                                  size="small"
+                                  color="primary"
+                                  sx={{ ml: 1 }}
+                                />
+                              )}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {new Date(review.date).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Rating value={review.rating} readOnly size="small" />
+                      </Box>
+                      <Typography variant="h6" gutterBottom>
+                        {review.title}
+                      </Typography>
+                      <Typography variant="body1" color="text.secondary">
+                        {review.comment}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
             </Box>
 
             {/* Related Products */}
@@ -667,7 +683,8 @@ const ProductDetails = () => {
                   '& > *': {
                     flex: '0 0 auto',
                     minWidth: 280,
-                    maxWidth: 280
+                    maxWidth: 280,
+                    height: 380, // Fixed height for all cards
                   }
                 }}>
                   {relatedProducts.map((relatedProduct) => (
@@ -677,9 +694,12 @@ const ProductDetails = () => {
                       to={`/product/${relatedProduct.id}`}
                       sx={{ 
                         textDecoration: 'none',
-                        height: '100%',
+                        height: 380, // Fixed height for all cards
+                        width: 280, // Fixed width for all cards
                         display: 'flex',
                         flexDirection: 'column',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
                         transition: 'transform 0.2s',
                         '&:hover': {
                           transform: 'translateY(-4px)',
@@ -688,12 +708,17 @@ const ProductDetails = () => {
                     >
                       <CardMedia
                         component="img"
-                        height="200"
                         image={relatedProduct.image}
                         alt={relatedProduct.name}
-                        sx={{ objectFit: 'contain', p: 2 }}
+                        sx={{ 
+                          width: '100%',
+                          height: 180, // Fixed image height
+                          objectFit: 'contain',
+                          p: 2,
+                          mb: 1
+                        }}
                       />
-                      <CardContent sx={{ flexGrow: 1 }}>
+                      <CardContent sx={{ flexGrow: 1, width: '100%', p: 2 }}>
                         <Typography variant="subtitle1" fontWeight="bold" noWrap>
                           {relatedProduct.name}
                         </Typography>
