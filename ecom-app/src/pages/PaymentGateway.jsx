@@ -17,7 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const PaymentGateway = () => {
+const PaymentGateway = ({ darkMode, setDarkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { totalAmount = 0, selectedCarts = [] } = location.state || {};
@@ -107,7 +107,7 @@ const PaymentGateway = () => {
 
   return (
     <>
-      <Navbar sx={{ mb: '10px' }} />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} sx={{ mb: '10px' }} />
       <Box sx={{ display: "flex", justifyContent: "center", mt: 5, pb: 8 }}>
         <Paper elevation={4} sx={{ p: 4, width: 400, borderRadius: 3 }}>
           <Typography variant="h5" fontWeight="bold" gutterBottom>

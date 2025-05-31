@@ -18,11 +18,22 @@ import Login from './Sellerside/Front-end/Login/Login'
 import Register from './Sellerside/Front-end/Signup/Signup'
 import Sellerprofile from './Sellerside/Front-end/Maindashboard'
 
+const getInitialDarkMode = () => {
+  const stored = localStorage.getItem("darkMode");
+  if (stored !== null) return stored === "true";
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
 const App = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(getInitialDarkMode);
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
   }, [darkMode]);
 
   return (
@@ -33,30 +44,28 @@ const App = () => {
       <Box sx={{ mb: 0 }}>
       </Box>
 
+      <Box sx={{ flexGrow: 1 }}>
+        <Routes>
+          <Route path="/signin" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<HeroSection darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/main" element={<Sellerprofile />} />
+          <Route path="/products" element={<ProductListing darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/cart" element={<Cart darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/product/:id" element={<ProductDetail darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/profile" element={<Profile darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/profile/carts" element={<Profile darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/profile/wishlists" element={<Profile darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/profile/bids" element={<Bids />} />
+          <Route path="/profile/settings" element={<Profile darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/wishlist" element={<Wishlist darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/orders" element={<OrdersPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/checkout" element={<Checkout darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/payment" element={<PaymentGateway darkMode={darkMode} setDarkMode={setDarkMode} />} />
+        </Routes>
+      </Box>
 
-  <Box sx={{ flexGrow: 1 }}>
-    <Routes>
-      <Route path="/signin" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/" element={<HeroSection />} />
-      <Route path="/main" element={<Sellerprofile />} />
-      <Route path="/products" element={<ProductListing />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/product/:id" element={<ProductDetail />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/profile/carts" element={<Profile />} />
-      <Route path="/profile/wishlists" element={<Profile />} />
-      <Route path="/profile/bids" element={<Bids />} />
-      <Route path="/profile/settings" element={<Profile />} />
-      <Route path="/wishlist" element={<Wishlist />} />
-      <Route path="/orders" element={<OrdersPage />} />
-      <Route path="/checkout" element={<Checkout />} />
-      <Route path="/payment" element={<PaymentGateway />} />
-    </Routes>
-  </Box>
-
-</Box>
-
+    </Box>
 
       </Router>
     </ThemeProvider>

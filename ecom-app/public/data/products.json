@@ -89,7 +89,11 @@
         "question": "What is the display size of the iPhone 15 Pro Max?",
         "answer": "It has a 6.7-inch Super Retina XDR display."
       }
-    ]
+    ],
+    "options": {
+      "color": ["Black", "White", "Blue", "Titanium"],
+      "storage": ["128GB", "256GB", "512GB", "1TB"]
+    }
   },
   {
     "id": 2,
@@ -160,7 +164,10 @@
         "question": "Are the Sony WH-1000XM5 headphones wireless?",
         "answer": "Yes, they are wireless over-ear headphones."
       }
-    ]
+    ],
+    "options": {
+      "color": ["Black", "Silver"]
+    }
   },
   {
     "id": 3,
@@ -230,7 +237,11 @@
         "question": "Is the Air Jordan 1 a collectible item?",
         "answer": "Yes, it is highly sought after by sneaker collectors."
       }
-    ]
+    ],
+    "options": {
+      "color": ["White", "Black", "Red"],
+      "size": ["7", "8", "9", "10", "11"]
+    }
   },
   {
     "id": 4,
@@ -372,7 +383,11 @@
         "question": "Is there a fingerprint scanner on the XPS 15?",
         "answer": "Yes, it includes a fingerprint scanner for security."
       }
-    ]
+    ],
+    "options": {
+      "color": ["Silver", "Black"],
+      "storage": ["512GB", "1TB", "2TB"]
+    }
   },
   {
     "id": 6,
@@ -1002,7 +1017,11 @@
       {"question": "Are these jeans stretchable?","answer": "Yes, made with stretch denim."},
       {"question": "What is the fit type?","answer": "Slim fit through seat and thigh."},
       {"question": "Are they machine washable?","answer": "Yes, they are machine washable."}
-    ]
+    ],
+    "options": {
+      "color": ["Blue", "Black", "Grey"],
+      "size": ["28", "30", "32", "34", "36", "38"]
+    }
   },
   {
     "id": 18,
@@ -1366,7 +1385,10 @@
       {"question": "Is it suitable for daily use?","answer": "Yes, safe for daily use."},
       {"question": "Does it work for all hair types?","answer": "Yes, suitable for all hair types."},
       {"question": "What is the bottle size?","answer": "400ml."}
-    ]
+    ],
+    "options": {
+      "volume": ["200ml", "400ml"]
+    }
   },
   {
     "id": 32,
@@ -1441,7 +1463,7 @@
     "id": 35,
     "name": "Himalaya Purifying Neem Face Wash",
     "category": "Beauty",
-    "brand": "Himalaya",
+    "brand": "Himalayas",
     "price": 180,
     "inStock": true,
     "rating": 4.6,
@@ -1481,7 +1503,10 @@
       {"question": "Is it suitable for kids?","answer": "Yes, suitable for ages 10 and above."},
       {"question": "Does it come with a cover?","answer": "Yes, full cover included."},
       {"question": "Is it pre-strung?","answer": "Yes, ready to use."}
-    ]
+    ],
+    "options": {
+      "size": ["Standard"]
+    }
   },
   {
     "id": 37,

@@ -25,11 +25,12 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import { useNavigate } from "react-router-dom";
 import debounce from "lodash.debounce";
 
-const Navbar = ({ darkMode, setDarkMode }) => {
+const Navbar = ({ darkMode, setDarkMode, ...props }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.down("md"));
 
+  const [allSuggestions, setAllSuggestions] = useState([]);
   const [suggestions, setSuggestions] = useState([]);
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
@@ -39,8 +40,8 @@ const Navbar = ({ darkMode, setDarkMode }) => {
   const navigate = useNavigate();
 
   const updateCartCount = useCallback(() => {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCartCount(cart.reduce((acc, item) => acc + item.quantity, 0));
+    const carts = JSON.parse(localStorage.getItem("carts")) || {};
+    setCartCount(Object.keys(carts).length);
   }, []);
 
   const updateWishlistCount = useCallback(() => {
@@ -63,13 +64,23 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     const fetchSuggestions = debounce(() => {
       fetch("/data/search.json")
         .then((res) => res.json())
-        .then((data) => setSuggestions(data.suggestions || []))
+        .then((data) => setAllSuggestions(data.suggestions || []))
         .catch((err) => console.error("Error loading search suggestions:", err));
     }, 300);
 
     fetchSuggestions();
     return () => fetchSuggestions.cancel();
   }, []);
+
+  const getFilteredSuggestions = (query) => {
+    if (!query) return allSuggestions;
+    const lowerQuery = query.toLowerCase();
+    const startsWith = allSuggestions.filter(s => s.toLowerCase().startsWith(lowerQuery));
+    const includes = allSuggestions.filter(
+      s => !s.toLowerCase().startsWith(lowerQuery) && s.toLowerCase().includes(lowerQuery)
+    );
+    return [...startsWith, ...includes];
+  };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -154,40 +165,41 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
           {/* Desktop Search Bar */}
           {!isTablet && (
-  <Box sx={{ flexGrow: 1, maxWidth: 700, mx: 3 }}> 
-    <Autocomplete
-      freeSolo
-      options={suggestions}
-      onChange={(event, newValue) => {
-        if (newValue) navigate(`/products?search=${newValue}`);
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          placeholder="Search for products..."
-          variant="outlined"
-          size="small"
-          fullWidth
-          sx={{
-            borderRadius: "20px",
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "20px",
-            },
-          }}
-          InputProps={{
-            ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-      )}
-    />
-  </Box>
-)}
-
+            <Box sx={{ flexGrow: 1, maxWidth: 700, mx: 3 }}>
+              <Autocomplete
+                freeSolo
+                options={getFilteredSuggestions(searchQuery)}
+                inputValue={searchQuery}
+                onInputChange={(event, newInputValue) => setSearchQuery(newInputValue)}
+                onChange={(event, newValue) => {
+                  if (newValue) navigate(`/products?search=${newValue}`);
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder="Search for products..."
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    sx={{
+                      borderRadius: "20px",
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "20px",
+                      },
+                    }}
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Box>
+          )}
 
           {/* Icons */}
           <Box sx={{ display: "flex", alignItems: "center", gap: isMobile ? 1 : 2 }}>
@@ -221,7 +233,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
 
             {/* Cart */}
             <IconButton onClick={() => navigate("/cart")}>
-              <Badge badgeContent={cartCount} color="error">
+              <Badge badgeContent={cartCount} color="error" showZero>
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
@@ -238,7 +250,9 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     <Box sx={{ flexGrow: 1, maxWidth: 400 }}>
       <Autocomplete
         freeSolo
-        options={suggestions}
+        options={getFilteredSuggestions(searchQuery)}
+        inputValue={searchQuery}
+        onInputChange={(event, newInputValue) => setSearchQuery(newInputValue)}
         onChange={(event, newValue) => {
           if (newValue) {
             navigate(`/products?search=${newValue}`);
@@ -271,7 +285,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     <Button
       variant="contained"
       color="primary"
-      sx={{ ml: 1, height: "40px", minWidth: "64px" }} 
+      sx={{ ml: 1, height: "40px", minWidth: "64px" }}
       onClick={handleSearch}
     >
       Go

@@ -172,7 +172,7 @@ const FeaturePaper = styled(Paper)(({ theme }) => ({
   },
 }));
 
-const HeroSection = () => {
+const HeroSection = ({ darkMode, setDarkMode }) => {
   const [ads, setAds] = useState([]);
   const [categories, setCategories] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -227,7 +227,7 @@ const HeroSection = () => {
 
   return (
     <>
-      <Navbar sx={{ mb: '10px' }} />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} sx={{ mb: '10px' }} />
       <Box sx={{ mt: '100px', width: '100%', bgcolor: theme => theme.palette.mode === 'dark' ? colors.background.dark : colors.background.light }}>
         {/* Hero Banner Section */}
         <Box sx={{ 
@@ -247,7 +247,7 @@ const HeroSection = () => {
                 </Fade>
                 <Overlay>
                   <Box sx={{ maxWidth: "600px" }}>
-                    <Fade in={fadeIn} timeout={500} style={{ transitionDelay: '100ms' }}>
+                    <Fade in={fadeIn} timeout={500} style={{ transitionDelay: '50ms' }}>
                       <Typography
                         variant="h2"
                         sx={{

@@ -37,13 +37,14 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const ProfilePage = () => {
+const Profile = ({ darkMode, setDarkMode }) => {
   const [editingProfile, setEditingProfile] = useState(false);
   const [updatedName, setUpdatedName] = useState(profileData.profile.name);
   const [updatedPhone, setUpdatedPhone] = useState(profileData.profile.phone);
   const [activeTab, setActiveTab] = useState(0);
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
   const [newAddress, setNewAddress] = useState("");
+  const [newAddressLabel, setNewAddressLabel] = useState("");
   const [savedAddresses, setSavedAddresses] = useState(profileData.addresses);
   const theme = useTheme();
   const navigate = useNavigate();
@@ -61,12 +62,13 @@ const ProfilePage = () => {
   };
 
   const handleAddAddress = () => {
-    if (newAddress.trim()) {
+    if (newAddress.trim() && newAddressLabel.trim()) {
       setSavedAddresses([
         ...savedAddresses,
-        { id: savedAddresses.length + 1, address: newAddress },
+        { id: savedAddresses.length + 1, label: newAddressLabel, address: newAddress },
       ]);
       setNewAddress("");
+      setNewAddressLabel("");
       setOpenAddressDialog(false);
     }
   };
@@ -85,7 +87,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <Navbar sx={{ mb: '10px' }} />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} sx={{ mb: '10px' }} />
       <Box sx={{ width: '100%', p: { xs: 2, md: 4 }, mt: '100px' }}>
         <Box sx={{ 
           display: 'flex', 
@@ -367,9 +369,16 @@ const ProfilePage = () => {
                         borderColor: 'primary.main',
                       }
                     }}>
-                      <Typography variant="body1" sx={{ flex: 1 }}>
-                        {address.address}
-                      </Typography>
+                      <Box sx={{ flex: 1 }}>
+                        {address.label && (
+                          <Typography variant="subtitle2" fontWeight="bold" sx={{ mb: 0.5, color: 'primary.main' }}>
+                            {address.label}
+                          </Typography>
+                        )}
+                        <Typography variant="body1">
+                          {address.address}
+                        </Typography>
+                      </Box>
                       <IconButton 
                         color="error" 
                         onClick={() => handleDeleteAddress(address.id)}
@@ -406,6 +415,15 @@ const ProfilePage = () => {
           <DialogContent sx={{ pt: 3 }}>
             <TextField
               fullWidth
+              label="Address Name (e.g. Home, Work)"
+              value={newAddressLabel}
+              onChange={(e) => setNewAddressLabel(e.target.value)}
+              variant="outlined"
+              size="small"
+              sx={{ mb: 2 }}
+            />
+            <TextField
+              fullWidth
               label="Address"
               value={newAddress}
               onChange={(e) => setNewAddress(e.target.value)}
@@ -434,7 +452,7 @@ const ProfilePage = () => {
             <Button 
               onClick={handleAddAddress} 
               variant="contained"
-              disabled={!newAddress.trim()}
+              disabled={!newAddress.trim() || !newAddressLabel.trim()}
             >
               Add Address
             </Button>
@@ -446,4 +464,4 @@ const ProfilePage = () => {
   );
 };
 
-export default ProfilePage;
+export default Profile;

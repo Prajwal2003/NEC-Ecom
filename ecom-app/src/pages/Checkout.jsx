@@ -28,7 +28,7 @@ const countryList = [
   "South Africa",
 ];
 
-const Checkout = () => {
+const Checkout = ({ darkMode, setDarkMode }) => {
   const { state } = useLocation();
   const navigate = useNavigate();
   const selectedCarts = state?.selectedCarts || [];
@@ -80,7 +80,7 @@ const Checkout = () => {
 
   return (
     <>
-      <Navbar sx={{ mb: '10px' }} />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} sx={{ mb: '10px' }} />
       <Box sx={{ p: { xs: 2, md: 4 }, bgcolor: "#f5f5f5", minHeight: "100vh", mt: '100px' }}>
         <Typography variant="h5" fontWeight="bold" mb={3}>
           Review Orders

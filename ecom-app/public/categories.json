@@ -4,6 +4,6 @@
     { "name": "Home", "image": "/images/category/home.png" },
     { "name": "Beauty", "image": "/images/category/beauty.png" },
     { "name": "Sports & Outdoors", "image": "/images/category/sports.png" },
-    { "name": "Books", "image": "/images/category/toys.png" }
+    { "name": "Toys", "image": "/images/category/toys.png" }
   ]
   

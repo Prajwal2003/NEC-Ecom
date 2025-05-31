@@ -22,7 +22,7 @@ import { useTheme } from "@mui/material/styles";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
-const Wishlist = () => {
+const Wishlist = ({ darkMode, setDarkMode }) => {
   const theme = useTheme();
   const [wishlists, setWishlists] = useState({});
   const [newWishlistName, setNewWishlistName] = useState("");
@@ -90,7 +90,7 @@ const Wishlist = () => {
 
   return (
     <>
-      <Navbar sx={{ mb: '10px' }} />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} sx={{ mb: '10px' }} />
       <Box sx={{ width: "100vw", minHeight: "100vh", bgcolor: theme.palette.background.default, p: 4, mt: '100px' }}>
         <Typography variant="h4" fontWeight="bold" sx={{ mb: 2, color: theme.palette.text.primary }}>
           Wishlists
@@ -122,14 +122,58 @@ const Wishlist = () => {
               <Grid container spacing={2}>
                 {wishlists[wishlistName].map((product) => (
                   <Grid item xs={12} sm={6} md={4} key={product.id}>
-                    <Paper sx={{ p: 2, display: "flex", alignItems: "center", gap: 2, bgcolor: theme.palette.background.paper }}>
+                    <Paper sx={{
+                      p: 2,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 2,
+                      bgcolor: theme.palette.background.paper,
+                      boxShadow: 4,
+                      borderRadius: 3,
+                      borderLeft: `5px solid ${theme.palette.primary.main}`,
+                      mb: 2,
+                      transition: 'box-shadow 0.2s, border-color 0.2s',
+                      '&:hover': {
+                        boxShadow: 8,
+                        borderLeft: `5px solid ${theme.palette.primary.dark}`,
+                        bgcolor: theme.palette.action.hover,
+                      },
+                    }}>
                       <img
                         src={product.image || "/fallback-image.jpg"}
                         alt={product.name}
                         onClick={() => window.location.href = `/product/${product.id}`}
-                        style={{ width: 80, height: 80, cursor: "pointer", objectFit: "contain" }}
+                        style={{
+                          width: 70,
+                          height: 70,
+                          cursor: "pointer",
+                          objectFit: "contain",
+                          borderRadius: 8,
+                          border: `1.5px solid ${theme.palette.divider}`,
+                          background: '#fff',
+                          boxShadow: '0 1px 4px rgba(0,0,0,0.04)'
+                        }}
                       />
-                      <ListItemText primary={product.name} secondary={`₹${product.price}`} sx={{ color: theme.palette.text.primary }} />
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="body1" fontWeight="bold" sx={{ color: theme.palette.text.primary }}>
+                          {product.name}
+                        </Typography>
+                        {product.selectedOptions && Object.keys(product.selectedOptions).length > 0 && (
+                          <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mt: 0.5 }}>
+                            {Object.entries(product.selectedOptions).map(([key, val]) => (
+                              <Box key={key} sx={{
+                                px: 1.5, py: 0.5, borderRadius: 2, fontSize: 13, fontWeight: 500,
+                                bgcolor: theme.palette.mode === 'dark' ? theme.palette.action.selected : '#e3e8ef',
+                                color: theme.palette.text.secondary,
+                                border: `1px solid ${theme.palette.divider}`
+                              }}>{key.charAt(0).toUpperCase() + key.slice(1)}: {val}</Box>
+                            ))}
+                          </Box>
+                        )}
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+                          ₹{product.price}
+                        </Typography>
+                      </Box>
                       <IconButton color="primary" onClick={() => openCartDialog(wishlistName, product)}>
                         <ShoppingCartIcon />
                       </IconButton>
